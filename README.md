@@ -1,5 +1,8 @@
 # Marmalade_Boy
 Tools for compress and decompress images in the gb game.  
+Marmalade Boy (Japan).sgb
+CRC 32: 0F3FF7DA
+
   
 You will need a copy of your rom "Marmalade Boy.gb" and python 3  
 
@@ -12,6 +15,8 @@ To compress add its (name).bin to the Compressor.
 
 # Marmalade_Boy
 Herramientas para comprimir y descomprimir imágenes en el juego gb.   
+Marmalade Boy (Japan).sgb
+CRC 32: 0F3FF7DA
 
 Necesitarás una copia de tu rom "Marmalade Boy.gb" y python 3  
 
