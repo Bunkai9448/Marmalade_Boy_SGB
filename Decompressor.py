@@ -80,15 +80,15 @@ offsets = [
     0x31A8F, 
     0x31F11,
     0x3232D, # Notebook's 1st page
-    0x32854,
+    0x32854, # Notebook's Item, How to use, Marmalade
     0x332F6,
-    0x356E2,
-    0x36A1B,
-    0x2401A,
-    0x25280, 
+    0x356E2, # 光希遊のへや玄関
+    0x36A1B, # E正面玄関
+    0x2401A, # Main (Start) Screen
+    0x25280, # 銀太のテニスマッチ遊の　メダイュの秘密恋の行方
     0x256B4,
-    0x257BB,
-    0x25DE8
+    0x257BB, # Copyright screen
+    0x25DE8 # Password Robot
 ]
 
 # Process each offset
