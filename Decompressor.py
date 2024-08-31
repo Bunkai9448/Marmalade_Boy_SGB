@@ -72,6 +72,7 @@ rom_path = 'Marmalade Boy.gb'
 offsets = [
     0x1C9FA,
     0x1E7CC,
+    0x21B00, # (END) psychology test results
     0x246C0,
     0x2979B,
     0x2EF8E,
