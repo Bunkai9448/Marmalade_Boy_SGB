@@ -79,6 +79,7 @@ offsets = [
     0x307F1,
     0x31A8F, 
     0x31F11,
+    0x3232D, # Notebook's 1st page
     0x32854,
     0x332F6,
     0x356E2,
