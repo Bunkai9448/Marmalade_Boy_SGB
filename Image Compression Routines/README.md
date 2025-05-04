@@ -1,4 +1,4 @@
-# Marmalade_Boy
+# Image Compression Tools - Readme
 Tools for compress and decompress images in the gb game.  
 Marmalade Boy (Japan).sgb
 CRC 32: 0F3FF7DA
