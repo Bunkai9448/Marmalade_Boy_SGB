@@ -1,5 +1,8 @@
 # Text Display Routine - Readme
 
+- Marmalade Boy (Japan).sgb
+- CRC 32: 0F3FF7DA
+
 ## English
 
 - This is currently in a working progress, hence the lack of more explanatory info.
