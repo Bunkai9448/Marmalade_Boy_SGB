@@ -222,9 +222,22 @@ DD=試
 DE=合
 DF=本
 
+E0=<FACE_E0>
+E1=<FACE_E1>
+E2=<FACE_E2>
+E3=<FACE_E3>
+E4=<FACE_E4>
+E5=<FACE_E5>
+E6=<FACE_E6>
+
+
 F0=<END>
-F2=<LN>
+F1=<CN>
+F2=<NL>
+
+F4=<DICT_TABLE>,1
+
 FC=…
 FD=゛
 FE=゜
-FF=　
+FF=<SP>
