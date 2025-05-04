@@ -14,9 +14,8 @@ You must provide your own game files. Do not ask here for them.
 - script dump > Worked out
 - Script translation done > Worked out
 - script insert > Worked out
-- image compression > Worked out
-- tools for extract/insert images > Worked out
-- **VWF, currently working on this**
+- Image compression and tools for it > [Worked out](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Image%20Compression%20Routines)
+- VWF, **currently working on this** [here](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Text%20Display%20Routine)
 
 *Notice: Even if many of the steps have "worked out" labels, they still need polish and bug fixing.*  
 *Althought the project has a lot of things in private, you can check the project [Socials](#Socials) for some extra sneak peeks.*
@@ -32,7 +31,7 @@ way, please make an issue or contact me and we can talk about it.
 - The project and files should be fully open and free to use, unless explicitly mentioned. The only requirement, 
 to share and use, is to give credit when it is due.
 
-# Socials
+## Socials
 - https://x.com/MarmaladeboySfc
 
 - https://www.romhacking.net/forum/index.php?topic=33154.0
