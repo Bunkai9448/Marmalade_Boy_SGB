@@ -68,6 +68,6 @@ Open the terminal and run : `cartographer "Marmalade Boy (Japan).sgb" Marmalade_
 Open the terminal and run : `Atlas "Marmalade Boy (Japan).sgb" Marmalade_script.txt`
 
 
-*Since Atlas and Cartographer are Windows only, I also used the (full) data to make a few python scripts 
+- *Since Atlas and Cartographer are Windows only, I also used the (full) data to make a few python scripts 
 (with AI help), so I can make the insertion/extraction in my unix systems too. But those scripts are private 
 for the tine being.*
