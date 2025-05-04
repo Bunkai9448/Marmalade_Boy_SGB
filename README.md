@@ -9,11 +9,11 @@ You must provide your own game files. Do not ask here for them.
 
 ## Current State of the Project
 
-- script pointers > Worked out
-- text dictionary compression > Worked out
-- script dump > Worked out
-- Script translation done > Worked out
-- script insert > Worked out
+- Script Pointers > Worked out
+- Text Dictionary Compression > Worked out
+- Script Dump > Worked out
+- Script Translation > Done
+- Script Insert > Worked out
 - Image compression and tools for it > [Worked out](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Image%20Compression%20Routines)
 - VWF, **currently working on this** [here](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Text%20Display%20Routine)
 
