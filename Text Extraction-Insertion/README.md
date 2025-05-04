@@ -27,7 +27,7 @@ $33900
 
 ## How to use
 
-- You can use these if you want to test or learn about it to help with the project.
+*Notice: You can use these if you want to test or learn about it to help with the project.*
 
 - [Cartographer](https://www.romhacking.net/utilities/647/) commands for a script dump
 ```
