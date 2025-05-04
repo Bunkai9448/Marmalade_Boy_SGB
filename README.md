@@ -9,11 +9,11 @@ You must provide your own game files. Do not ask here for them.
 
 ## Current State of the Project
 
-- Script Pointers > Worked out
-- Text Dictionary Compression > Worked out
-- Script Dump > Worked out
+- Script Pointers > [Worked out](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Text%20Extraction-Insertion)
+- Text Dictionary Compression > Worked out (Check FontTable)
+- Script Dump > [Worked out](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Text%20Extraction-Insertion)
 - Script Translation > Done
-- Script Insert > Worked out
+- Script Insert > [Worked out](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Text%20Extraction-Insertion)
 - Image compression and tools for it > [Worked out](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Image%20Compression%20Routines)
 - VWF, **currently working on this** [here](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Text%20Display%20Routine)
 
