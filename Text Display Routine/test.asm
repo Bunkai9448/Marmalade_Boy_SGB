@@ -11,6 +11,8 @@
     ld   h, a           ; ROM0:000D - Load A into H
     ld   a, (hl)        ; ROM0:000E - Load value at HL into A
     ret                 ; ROM0:000F - Return from subroutine
+
+.org 0x000F
     add  a, e           ; ROM0:0010 - Add register E to A
     ld   e, a           ; ROM0:0011 - Load A into E
     ld   a, 0x00        ; ROM0:0012 - Load A with immediate value 0x00
@@ -18,6 +20,8 @@
     ld   d, a           ; ROM0:0015 - Load A into D
     ld   a, (de)        ; ROM0:0016 - Load value at DE into A
     ret                 ; ROM0:0017 - Return from subroutine
+
+.org 0x0017
     add  a, c           ; ROM0:0018 - Add register C to A
     cp   b              ; ROM0:0019 - Compare A with B
     ret  c              ; ROM0:001A - Return if carry flag set
@@ -553,6 +557,8 @@
     ld   (0x3FFF), a    ; ROM0:146A - Possibly bank switch or VRAM - Set memory bank; Switches to the bank stored in 0xFFC9
     pop  af             ; ROM0:146D - Restore A and flags - Recover state; Restores state before returning
     ret                 ; ROM0:146E - Returns to 0x2F8B - Exit subroutine; Ends bank switch and script init
+
+.org 0x146F
     ld   hl, 0x7900     ; ROM0:146F - Tile data destination - VRAM tile map address; Sets VRAM address for tile data (0x7900-0x7FFF range)
     ld   c, a           ; ROM0:1472 - A contains tile number - Set low byte; Sets tile index from accumulator
     ld   b, 0x00        ; ROM0:1473 - Clear high byte - BC = tile number; Ensures BC is a 16-bit tile number with high byte zero
