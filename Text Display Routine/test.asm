@@ -703,6 +703,43 @@
     ld   h, a           ; ROM0:179C - Update H; Updates Y position
     ret                 ; ROM0:179D - Return; Ends position adjustment
 
+.org 0x17D0               ; subroutine convert character to tile
+    push de               ; ROM0:17D0 D5 - Save the value of DE register pair to stack
+    ld   a,(de)           ; ROM0:17D1 1A - Load the value at the memory location pointed to by DE into register A
+    call 0x146F           ; ROM0:17D2 CD 6F 14 - Call function at address 0x146F
+    ld   de,0xCDBD        ; ROM0:17D5 11 BD CD - Load the address 0xCDBD into DE register pair
+    ld   hl,0x8000        ; ROM0:17D8 21 00 80 - Load the address 0x8000 into HL register pair
+    ld   a,(0xCDCD)       ; ROM0:17DB FA CD CD - Load the value at address 0xCDCD into register A
+    ld   b,a              ; ROM0:17DE 47 - Copy value from register A into register B
+    ld   a,(0xCDE1)       ; ROM0:17DF FA E1 CD - Load the value at address 0xCDE1 into register A
+    add a,b               ; ROM0:17E2 80 - Add the value of register B to register A
+    cp   a,0x80           ; ROM0:17E3 FE 80 - Compare register A with 0x80
+    jr   nc,0x17EA        ; ROM0:17E5 30 03 - Jump if no carry (A >= 0x80) to address 0x17EA
+    ld   hl,0x9000        ; ROM0:17E7 21 00 90 - Load the address 0x9000 into HL register pair
+    ld   c,a              ; ROM0:17EA 4F - Copy the value of A into register C
+    ld   b,0x00           ; ROM0:17EB 06 00 - Set register B to 0 (initialize counter)
+    sla  c                ; ROM0:17ED CB 21 - Perform a left shift on register C (multiply by 2)
+    rl   b                ; ROM0:17EF CB 10 - Rotate left through carry on register B
+    sla  c                ; ROM0:17F1 CB 21 - Perform another left shift on register C (multiply by 2)
+    rl   b                ; ROM0:17F3 CB 10 - Rotate left through carry on register B
+    sla  c                ; ROM0:17F5 CB 21 - Perform another left shift on register C (multiply by 2)
+    rl   b                ; ROM0:17F7 CB 10 - Rotate left through carry on register B
+    sla  c                ; ROM0:17F9 CB 21 - Perform another left shift on register C (multiply by 2)
+    rl   b                ; ROM0:17FB CB 10 - Rotate left through carry on register B
+    add  hl,bc            ; ROM0:17FD 09 - Add the value of BC to HL (calculate address offset)
+    ld   b,0x08           ; ROM0:17FE 06 08 - Set register B to 8 (loop counter)
+    ld   a,(de)           ; ROM0:1800 1A - Load the value at address DE into register A
+    rst  0x20             ; ROM0:1801 E7 - Call the subroutine at address 0x0020 (software interrupt)
+    inc  hl               ; ROM0:1802 23 - Increment the HL register pair
+    ld   a,(de)           ; ROM0:1803 1A - Load the value at address DE into register A
+    rst  0x20             ; ROM0:1804 E7 - Call the subroutine at address 0x0020 (software interrupt)
+    inc  de               ; ROM0:1805 13 - Increment the DE register pair
+    inc  hl               ; ROM0:1806 23 - Increment the HL register pair
+    dec  b                ; ROM0:1807 05 - Decrement the value in register B (loop counter)
+    jr   nz,0x1800        ; ROM0:1808 20 F6 - Jump to address 0x1800 if B is not zero (repeat loop)
+    pop  de               ; ROM0:180A D1 - Restore the value of DE register pair from stack
+    ret                   ; ROM0:180B C9 - Return from the current subroutine
+
 .org 0x1BBC          ; Start of routine - Buffer management
     ld   a, (0xCDC6)    ; ROM0:1BBC - Load a flag or counter from WRAM; Checks text buffer state
     and  a              ; ROM0:1BBF - Test if a is zero; Tests if buffer is ready
