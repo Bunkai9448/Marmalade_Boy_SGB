@@ -23,7 +23,7 @@ by me, with use of the debuggers from [BGB](https://bgb.bircd.org/) and [Mesen2]
 *These are just my thoughts while manually reading the code on paper.*
 
 - Check `cp` values in the buffer management 0x1BBC
-- At 0x1D88 the table codes are checked, but seems to be only as iterator for char counting.
+- At 0x1D88 the table codes are checked, but seems to be only for the dictionary part.
 - At 0x1DC4 Actual display for chars
 - At 0x17D0 Convert Char to tile
 - At 0x146F Tile Data to VRAM
