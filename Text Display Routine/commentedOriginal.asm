@@ -380,8 +380,8 @@
     pop  af             ; ROM0:146D - Restore A and flags - Recover state; Restores state before returning
     ret                 ; ROM0:146E - Returns to 0x2F8B - Exit subroutine; Ends bank switch and script init
 
-.org 0x146F
-    ld   hl, 0x7900     ; ROM0:146F - Tile data destination - VRAM tile map address; Sets VRAM address for tile data (0x7900-0x7FFF range)
+.org 0x146F             ; Tile Data to VRAM
+    ld   hl, 0x7900     ; ROM0:146F - Sets VRAM address for tile data (0x7900-0x7FFF range)
     ld   c, a           ; ROM0:1472 - A contains tile number - Set low byte; Sets tile index from accumulator
     ld   b, 0x00        ; ROM0:1473 - Clear high byte - BC = tile number; Ensures BC is a 16-bit tile number with high byte zero
     sla  c              ; ROM0:1475 - Multiply by 8 - Shift left; Begins multiplying tile number by 16 (tile size)
@@ -502,7 +502,7 @@
     xor  a              ; ROM0:1560 - Clear A; Sets return value to 0
     ret                 ; ROM0:1561 - Return from subroutine; Ends text processing
 
-.org 0x171C      ; Screen boundary check - Validate position
+.org 0x171C             ; Screen boundary check - Validate position
     ld   a, (0xCDD9)    ; ROM0:171C - Load value from memory at 0xCDD9 into a; Loads screen boundary flag
     and  a              ; ROM0:171F - Test if a is zero; Checks if boundary checking is enabled
     jr   z, 0x1729      ; ROM0:1720 - Jump to 0x1729 if a is zero; Skips check if disabled
