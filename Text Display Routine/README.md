@@ -26,4 +26,4 @@ by me, with use of the debuggers from [BGB](https://bgb.bircd.org/) and [Mesen2]
 - At 0x1D88 the table codes are checked, but seems to be only as iterator for char counting.
 - At 0x1DC4 Actual display for chars
 - At 0x17D0 Convert Char to tile
-- Tile Data to VRAM probably in 0x146F 
+- At 0x146F Tile Data to VRAM
