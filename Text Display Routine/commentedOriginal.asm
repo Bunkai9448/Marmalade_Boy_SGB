@@ -763,7 +763,7 @@
     and  a              ; ROM0:2F8B - Check A register - Test for input; Tests if input was detected
     jr   z, 0x2F75      ; ROM0:2F8C - If zero, update display - Refresh if no input; Updates screen if no input
 
-.org 0x33900 ; Font Tiles, 8x8 1bpp Japanese Charset 
+.org 0x33900 ; Font Tiles, 8x8 1bpp Japanese Charset // AND each byte with 0xF0 to blank out the right half of the tile for an 8×4 test
 db 0x00, 0x38, 0x44, 0x44, 0x44, 0x44, 0x44, 0x38  ; "0"
 db 0x00, 0x10, 0x30, 0x10, 0x10, 0x10, 0x10, 0x38  ; "1"
 db 0x00, 0x38, 0x44, 0x04, 0x18, 0x20, 0x40, 0x7C  ; "2"
