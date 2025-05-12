@@ -774,25 +774,25 @@
     ldh  (0xCB), a      ; ROM0:1BF8 - Store a into HRAM at 0xFFCB; Updates text buffer control in HRAM
     ret                 ; ROM0:1BFA - Return; Ends buffer management
 
-.org 0x1D88 ; Control code handler (partial from previous) - Text commands
+.org 0x1D88 ; Control code handler (Probably only for counting displayed characters)
     ld   a, (de)        ; ROM0:1D88 - Load character - Get next script byte; Reads next script byte
-    cp   0xFD           ; ROM0:1D89 - Tenten-kana - Check for diacritic mark; Checks for tenten (voiced kana mark)
-    jr   z, 0x1DAF      ; ROM0:1D8B - Jump to handle tenten; Handles voiced kana
-    cp   0xFE           ; ROM0:1D8D - Maruten-kana - Check for circle mark; Checks for maruten (semi-voiced kana mark)
-    jr   z, 0x1DB3      ; ROM0:1D8F - Jump to handle maruten; Handles semi-voiced kana
-    cp   0xFF           ; ROM0:1D91 - Space-tile - Check for space; Checks for space character
-    jr   z, 0x1DE2      ; ROM0:1D93 - Jump to handle space; Handles space rendering
-    cp   0xF0           ; ROM0:1D95 - End text - Check for termination; Checks for text end code
-    jp   z, 0x1E2F      ; ROM0:1D97 - Jump to end text processing; Ends text display
-    cp   0xF2           ; ROM0:1D9A - New line - Check for line break; Checks for newline code
-    jr   z, 0x1DE9      ; ROM0:1D9C - Jump to handle newline; Handles line break
-    cp   0xF3           ; ROM0:1D9E - No input check - Check for skip input; Checks for skip input wait code
-    jp   z, 0x1E21      ; ROM0:1DA0 - Jump to skip input wait; Skips input delay
-    cp   0xFB           ; ROM0:1DA3 - Buffer continue - Check for text continue; Checks for buffer continue code
-    jp   z, 0x1E41      ; ROM0:1DA5 - Jump to continue buffer; Continues text buffer
-    cp   0xFC           ; ROM0:1DA8 - Suspension points - Check for ellipsis; Checks for ellipsis code
-    jp   z, 0x1E85      ; ROM0:1DAA - Jump to handle ellipsis; Handles ellipsis display
-    jr   0x1DC4         ; ROM0:1DAD - Regular character - Default to text processing; Processes regular text char
+    cp   0xFD           ; ROM0:1D89 - Checks for Tenten-kana
+    jr   z, 0x1DAF      ; ROM0:1D8B - Jump to handle tenten
+    cp   0xFE           ; ROM0:1D8D - Checks for Maruten-kana
+    jr   z, 0x1DB3      ; ROM0:1D8F - Jump to handle maruten
+    cp   0xFF           ; ROM0:1D91 - Checks for space character
+    jr   z, 0x1DE2      ; ROM0:1D93 - Jump to handle space
+    cp   0xF0           ; ROM0:1D95 - Checks for text end code
+    jp   z, 0x1E2F      ; ROM0:1D97 - Jump to end text processing
+    cp   0xF2           ; ROM0:1D9A - Checks for newline code
+    jr   z, 0x1DE9      ; ROM0:1D9C - Jump to handle newline
+    cp   0xF3           ; ROM0:1D9E - Check for skip input (?)
+    jp   z, 0x1E21      ; ROM0:1DA0 - Skips input delay
+    cp   0xFB           ; ROM0:1DA3 - Checks for buffer continue code (?)
+    jp   z, 0x1E41      ; ROM0:1DA5 - Continues text buffer
+    cp   0xFC           ; ROM0:1DA8 - Checks for ellipsis '...' code
+    jp   z, 0x1E85      ; ROM0:1DAA - Jump to handle ellipsis
+    jr   0x1DC4         ; ROM0:1DAD - Processes regular text char (actual display print?)
 
 .org 0x1DAF           ; ROM0:1DAF - Set program start address at 0x1DAF
 
@@ -811,11 +811,11 @@
 
 
 .org 0x1DC4 ; Character processing - Text to display conversion
-    call 0x17D0         ; ROM0:1DC4 - Character to tile - Convert to tile number; Converts char to tile index
-    call 0x1BBC         ; ROM0:1DC7 - Buffer management - Add to display buffer; Adds tile to text buffer
-    ld   a, (0xCDDA)    ; ROM0:1DCA - Load current position - Get X coordinate; Gets current X position
+    call 0x17D0         ; ROM0:1DC4 - Character to tile
+    call 0x1BBC         ; ROM0:1DC7 - Buffer management - Add to display buffer
+    ld   a, (0xCDDA)    ; ROM0:1DCA - Load current position - Get X coordinate
     ld   l, a           ; ROM0:1DCD - Store in L; Sets HL low byte
-    ld   a, (0xCDDB)    ; ROM0:1DCE - Get Y coordinate; Gets current Y position
+    ld   a, (0xCDDB)    ; ROM0:1DCE - Get Y coordinate
     ld   h, a           ; ROM0:1DD1 - Store in H - HL = position; HL holds cursor position
     ld   bc, 0x0020     ; ROM0:1DD2 - Next line offset - 32 tiles per line; Sets offset for next tilemap row
     add  hl, bc         ; ROM0:1DD5 - Advance position - Move to next line; Advances cursor to next line
