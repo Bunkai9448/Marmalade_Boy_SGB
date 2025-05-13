@@ -3,17 +3,17 @@
 
 .org 0x0134
     db   "GB MARMALADEBOY" ; ROM0:0134 - Game title
-    db   0x31            ; ROM0:0143 - Additional header byte
-    db   0x42, 0x32      ; ROM0:0144 - Additional header bytes
-    db   0x03            ; ROM0:0146 - Additional header byte
-    db   0x01            ; ROM0:0147 - Additional header byte
-    db   0x03            ; ROM0:0148 - Additional header byte
-    db   0x00            ; ROM0:0149 - Additional header byte
-    db   0x00            ; ROM0:014A - Additional header byte
-    db   0x33            ; ROM0:014B - Additional header byte
-    db   0x00            ; ROM0:014C - Additional header byte
-    db   0xF1            ; ROM0:014D - Additional header byte
-    db   0x99, 0xC1      ; ROM0:014E - Additional header bytes
+    db   0x31            ; ROM0:0143 - CGB Flag: Does not apply
+    db   0x42, 0x32      ; ROM0:0144 - New Licensee Code: "B2" in ASCII (Used only if byte at 0x014B is 0x33)
+    db   0x03            ; ROM0:0146 - SGB Flag: 0x03 = supports Super Game Boy functions
+    db   0x01            ; ROM0:0147 - Cartridge Type: 0x01 = MBC1 (no RAM, no battery)
+    db   0x03            ; ROM0:0148 - ROM Size: 0x03 = 128KB (8 banks of 16KB each)
+    db   0x00            ; ROM0:0149 - RAM Size: 0x00 = No RAM on cartridge
+    db   0x00            ; ROM0:014A - Destination Code: 0x00 = Japanese
+    db   0x33            ; ROM0:014B - Old Licensee Code: 0x33 = Use new licensee code at 0x0144
+    db   0x00            ; ROM0:014C - Mask ROM Version
+    db   0xF1            ; ROM0:014D - Header Checksum
+    db   0x99, 0xC1      ; ROM0:014E - Global Checksum
 
 .org 0x0150
     xor  a              ; ROM0:0150 - Clear A
