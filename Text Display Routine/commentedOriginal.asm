@@ -372,12 +372,12 @@
     ; Placeholder for subroutine, check user input (Gamepad and buttons)
 
 .org 0x1462
-    call 0x14A1         ; ROM0:1462 - Get script offsets - Call script initialization; Starts text processing for dialogue or menu
-    push af             ; ROM0:1465 - Save A and flags - Preserve state; Saves accumulator and flags for bank switching
+    call 0x14A1         ; ROM0:1462 - Get script offsets ; Starts text processing for dialogue or menu
+    push af             ; ROM0:1465 - Save A and flags - Preserve state for bank switching
     ldh  a, (0xC9)      ; ROM0:1466 - Load from HRAM - Get bank/offset value (was 0xFFC9); Retrieves current ROM bank from HRAM
     ldh  (0xC8), a      ; ROM0:1468 - Store to HRAM - Save for later (was 0xFFC8); Backs up bank number for restoration
     ld   (0x3FFF), a    ; ROM0:146A - Possibly bank switch or VRAM - Set memory bank; Switches to the bank stored in 0xFFC9
-    pop  af             ; ROM0:146D - Restore A and flags - Recover state; Restores state before returning
+    pop  af             ; ROM0:146D - Restore A and flags
     ret                 ; ROM0:146E - Returns to 0x2F8B - Exit subroutine; Ends bank switch and script init
 
 .org 0x146F             ; Tile Data to VRAM
@@ -435,32 +435,32 @@
     ld   (0xCDE8), a    ; ROM0:14DB - Update fourth target; Updates fourth stored value
     jp   0x198E         ; ROM0:14DE - Jump to script handler - Process new script position; Jumps to script execution
 
-.org 0x14E1
-    ld   a, (0xCDDE)    ; ROM0:14E1 - Load counter - Get script delay/progress; Loads text delay or progress counter
-    and  a              ; ROM0:14E4 - Check if zero - Test completion; Tests if delay is complete
-    jp   z, 0x14EF      ; ROM0:14E5 - If zero, process next - Move to next step; Advances script if delay done
-    ld   hl, 0xCDDE     ; ROM0:14E8 - Counter address - Point to counter; Points to delay counter
-    dec  (hl)           ; ROM0:14EB - Decrease counter - Count down; Decrements delay
-    jp   0x155D         ; ROM0:14EC - Continue processing - Keep going; Continues current script state
-    ld   a, (0xCDDF)    ; ROM0:14EF - Load default counter - Get reset value; Loads default delay value
-    ld   (0xCDDE), a    ; ROM0:14F2 - Reset counter - Restore delay; Resets delay counter
-    ld   a, (0xCDDC)    ; ROM0:14F5 - Load script pointer low - Get address low; Loads low byte of script address
+.org 0x14E1             ; Text unrolling routine
+    ld   a, (0xCDDE)    ; ROM0:14E1 - Loads text delay or progress counter
+    and  a              ; ROM0:14E4 - Check if zero - Test completion
+    jp   z, 0x14EF      ; ROM0:14E5 - If zero, process next - Move to next step
+    ld   hl, 0xCDDE     ; ROM0:14E8 - Counter address - Point to counter
+    dec  (hl)           ; ROM0:14EB - Decrease counter
+    jp   0x155D         ; ROM0:14EC - Continue processing
+    ld   a, (0xCDDF)    ; ROM0:14EF - Load default counter - Get reset value
+    ld   (0xCDDE), a    ; ROM0:14F2 - Reset counter
+    ld   a, (0xCDDC)    ; ROM0:14F5 - Loads low byte of script address
     ld   e, a           ; ROM0:14F8 - Store in E; Sets DE low byte
-    ld   a, (0xCDDD)    ; ROM0:14F9 - Load script pointer high - Get address high; Loads high byte of script address
-    ld   d, a           ; ROM0:14FC - Store in D - DE now points to script; DE now holds script pointer
+    ld   a, (0xCDDD)    ; ROM0:14F9 - Loads high byte of script address
+    ld   d, a           ; ROM0:14FC - Store in D - DE now holds script pointer
 
-.org 0x14FD
-    ld   a, (de)        ; ROM0:14FD - Load character from script - Get next byte; Reads next script byte
-    cp   0xE0           ; ROM0:14FE - Check if control code - Compare with boundary; Checks if byte is a control code (? 0xE0)
-    jr   c, 0x150E      ; ROM0:1500 - If regular char, process - Below E0 is text; Processes as text if < 0xE0
-    sub  a, 0xE0        ; ROM0:1502 - Adjust control code value - Normalize code; Converts code to table index
+.org 0x14FD             ; Dictionary unrolling routine
+    ld   a, (de)        ; ROM0:14FD - Load character from script - Reads next script byte
+    cp   0xE0           ; ROM0:14FE - Checks if byte is a control code
+    jr   c, 0x150E      ; ROM0:1500 - Processes as text if < 0xE0
+    sub  a, 0xE0        ; ROM0:1502 - Adjust control code value - Converts code to table index
     sla  a              ; ROM0:1504 - Shift left; Doubles index for word-sized table
-    ld   hl, 0x1CF8     ; ROM0:1506 - Set handler table address; Points to control code jump table
+    ld   hl, 0x1CF8     ; ROM0:1506 - Points to control code jump table
     rst  0x08           ; ROM0:1509 - Call reset vector 0x08; Computes table address (adds A to HL)
-    inc  hl             ; ROM0:150A - Move to handler address; Points to high byte of handler
-    ld   h, (hl)        ; ROM0:150B - Load high byte of address; Loads handler address high byte
-    ld   l, a           ; ROM0:150C - Load low byte from A; Sets low byte from adjusted code
-    jp   hl             ; ROM0:150D - Jump to handler; Jumps to control code handler
+    inc  hl             ; ROM0:150A - Points to high byte of handler
+    ld   h, (hl)        ; ROM0:150B - Loads handler address high byte
+    ld   l, a           ; ROM0:150C - Sets low byte from adjusted code
+    jp   hl             ; ROM0:150D - Jumps to control code handler
 
 .org 0x150E
     ld   a, (0xCE24)    ; ROM0:150E - Load value from 0xCE24 into A; Checks a text state flag
