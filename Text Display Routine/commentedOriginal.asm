@@ -274,6 +274,14 @@
     pop  de                ; ROM0:180A - Restore the value of DE register pair from stack
     ret                    ; ROM0:180B - Return from the current subroutine
 
+.org 0x182F                ; ROM0:182F - Increment DE and store its value to 0xCDDC/0xCDDD
+    inc  de                ; ROM0:182F - Increment DE register pair
+    ld   a, e              ; ROM0:1830 - Load lower byte (E) of DE into A
+    ld   (0xCDDC), a       ; ROM0:1831 - Store A into address 0xCDDC
+    ld   a, d              ; ROM0:1834 - Load upper byte (D) of DE into A
+    ld   (0xCDDD), a       ; ROM0:1835 - Store A into address 0xCDDD
+    ret                    ; ROM0:1838 - Return from subroutine
+
 .org 0x1BBC                ; Start of routine - Buffer management
     ld   a, (0xCDC6)       ; ROM0:1BBC - Load a flag or counter from WRAM; Checks text buffer state
     and  a                 ; ROM0:1BBF - Test if a is zero; Tests if buffer is ready
@@ -307,6 +315,11 @@
     ld   a, 0x06           ; ROM0:1BF6 - Load 0x06 into a (case 0x03/0x04); Sets buffer state for special mode
     ldh  (0xCB), a         ; ROM0:1BF8 - Store a into HRAM at 0xFFCB; Updates text buffer control in HRAM
     ret                    ; ROM0:1BFA - Return; Ends buffer management
+
+.org 0x1BFB                ; ROM0:1BFB - Check condition flags before proceeding
+    ld   a, (0xCE24)       ; ROM0:1BFB - Load value from address 0xCE24 into A
+    and  a                 ; ROM0:1BFE - Logical AND A with itself (sets Z flag if A == 0)
+    ret  nz                ; ROM0:1BFF - Return if result was not zero
 
 .org 0x1D88                ; ROM0:1D88 - Control code handler (In the dictionary section)
     ld   a, (de)           ; ROM0:1D88 - Load character - Get next script byte; Reads next script byte
@@ -422,6 +435,20 @@
     ld   a,(0xCE19)      ; ROM0:1EA5 FA 19 CE - Load the value at memory address 0xCE19 into register A
     ld   hl,0xCDE4       ; ROM0:1EA8 21 E4 CD - Load memory address 0xCDE4 into HL register pair
     rst  0x08            ; ROM0:1EAB CF - Call software interrupt (RST 0x08), likely to trigger a display or graphics update
+
+.org 0x1F33                ; ROM0:1F33 - Count non-0xFF bytes starting at 0xCDE4 (max 3), store in 0xCE1A
+    ld   hl, 0xCDE4        ; ROM0:1F33 - Load HL with address 0xCDE4
+    ld   b, 0x00           ; ROM0:1F36 - Initialize counter B to 0
+    ldi  a, (hl)           ; ROM0:1F38 - Load value at (HL) into A and increment HL
+    cp   a, 0xFF           ; ROM0:1F39 - Compare A with 0xFF
+    jr   z, 0x1F43         ; ROM0:1F3B - If A == 0xFF, jump to 0x1F43
+    inc  b                ; ROM0:1F3D - Increment B
+    ld   a, b              ; ROM0:1F3E - Load counter B into A
+    cp   a, 0x03           ; ROM0:1F3F - Compare A with 3
+    jr   nz, 0x1F38        ; ROM0:1F41 - Loop back if not yet 3 valid bytes
+    ld   a, b              ; ROM0:1F43 - Load final count into A
+    ld   (0xCE1A), a       ; ROM0:1F44 - Store result in 0xCE1A
+    ret                    ; ROM0:1F47 - Return from subroutine
 
 .org 0x2F25                ; Line count check - Text formatting (default case ends game intro)
     ld   a, (0xD525)    ; ROM0:2F25 - Paragraph lines - Get line count; Loads number of text lines
