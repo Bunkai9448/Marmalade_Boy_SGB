@@ -67,17 +67,19 @@
     ldh  (0xFF), a         ; ROM0:03B0 - Store updated interrupt enable
     ret                    ; ROM0:03B2 - Return after interrupt enable update
 
-    ld   e, c           ; ROM0:03B3 - Load low byte into E
-    ld   d, 0x00        ; ROM0:03B4 - Clear high byte D
-    ld   c, 0x05        ; ROM0:03B6 - Set loop counter to 5
-    sla  e              ; ROM0:03B8 - Shift E left (multiply by 2)
-    rl   d              ; ROM0:03BA - Rotate D left with carry
-    dec  c              ; ROM0:03BC - Decrement loop counter
-    jr   nz, 0x03B8     ; ROM0:03BD - Repeat shift 5 times (multiply by 32)
-    ld   a, b           ; ROM0:03BF - Load value from B
-    or   e              ; ROM0:03C0 - Combine with shifted result
-    ld   e, a           ; ROM0:03C1 - Store result in E
-    ret                 ; ROM0:03C2 - Return with 16-bit result in DE
+.org 0x03B3                ; ROM0:03B3 - multiply_and_combine(dest = DE, value_b = B, value_c = C)
+    ld   e, c              ; ROM0:03B3 - Load low byte into E
+    ld   d, 0x00           ; ROM0:03B4 - Clear high byte D
+    ld   c, 0x05           ; ROM0:03B6 - Set loop counter to 5
+    sla  e                 ; ROM0:03B8 - Shift E left (multiply by 2)
+    rl   d                 ; ROM0:03BA - Rotate D left with carry
+    dec  c                 ; ROM0:03BC - Decrement loop counter
+    jr   nz, 0x03B8        ; ROM0:03BD - Repeat shift 5 times (multiply by 32)
+    ld   a, b              ; ROM0:03BF - Load value from B
+    or   e                 ; ROM0:03C0 - Combine with shifted result
+    ld   e, a              ; ROM0:03C1 - Store result in E
+    ret                    ; ROM0:03C2 - Return with 16-bit result in DE
+
     ld   a, d           ; ROM0:03C3 - Load high byte
     ldh  (0x8B), a      ; ROM0:03C4 - Store to HRAM temp high byte (was 0xFF8B)
     ld   a, e           ; ROM0:03C6 - Load low byte
@@ -120,14 +122,14 @@
 .org 0x0572
     ; Placeholder for subroutine, check user input (Gamepad and buttons)
 
-.org 0x1462
-    call 0x14A1         ; ROM0:1462 - Get script offsets ; Starts text processing for dialogue or menu
-    push af             ; ROM0:1465 - Save A and flags - Preserve state for bank switching
-    ldh  a, (0xC9)      ; ROM0:1466 - Load from HRAM - Get bank/offset value (was 0xFFC9); Retrieves current ROM bank from HRAM
-    ldh  (0xC8), a      ; ROM0:1468 - Store to HRAM - Save for later (was 0xFFC8); Backs up bank number for restoration
-    ld   (0x3FFF), a    ; ROM0:146A - Possibly bank switch or VRAM - Set memory bank; Switches to the bank stored in 0xFFC9
-    pop  af             ; ROM0:146D - Restore A and flags
-    ret                 ; ROM0:146E - Returns to 0x2F8B - Exit subroutine; Ends bank switch and script init
+.org 0x1462                ; ROM0:1462 - bank switching and script initialization
+    call 0x14A1            ; ROM0:1462 - Get script offsets ; Starts text processing for dialogue or menu
+    push af                ; ROM0:1465 - Save A and flags - Preserve state for bank switching
+    ldh  a, (0xC9)         ; ROM0:1466 - Load from HRAM - Retrieves current ROM bank from HRAM
+    ldh  (0xC8), a         ; ROM0:1468 - Store to HRAM - Backs up bank number for restoration
+    ld   (0x3FFF), a       ; ROM0:146A - Switches to the bank stored in 0xFFC9
+    pop  af                ; ROM0:146D - Restore A and flags
+    ret                    ; ROM0:146E - Returns to 0x2F8B - Ends bank switch and script init
 
 .org 0x146F             ; Tile Data to VRAM
     ld   hl, 0x7900     ; ROM0:146F - Sets VRAM address for tile data (0x7900-0x7FFF range)
