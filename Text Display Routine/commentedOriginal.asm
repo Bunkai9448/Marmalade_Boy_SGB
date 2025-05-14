@@ -131,32 +131,32 @@
     pop  af                ; ROM0:146D - Restore A and flags
     ret                    ; ROM0:146E - Returns to 0x2F8B - Ends bank switch and script init
 
-.org 0x146F             ; Tile Data to VRAM
-    ld   hl, 0x7900     ; ROM0:146F - Sets VRAM address for tile data (0x7900-0x7FFF range)
-    ld   c, a           ; ROM0:1472 - A contains tile number - Set low byte; Sets tile index from accumulator
-    ld   b, 0x00        ; ROM0:1473 - Clear high byte - BC = tile number; Ensures BC is a 16-bit tile number with high byte zero
-    sla  c              ; ROM0:1475 - Multiply by 8 - Shift left; Begins multiplying tile number by 16 (tile size)
-    rl   b              ; ROM0:1477 - (tile data is 8 bytes per tile) - Rotate carry; Handles carry for 16-bit shift
-    sla  c              ; ROM0:1479 - Shift Left Arithmetic effectively multiplies c by 2; Continues multiplication (now ×4)
-    rl   b              ; ROM0:147B - Rotate Left through Carry on register b.; Handles carry
-    sla  c              ; ROM0:147D; Multiplies by 8; Final shift to ×16 (16 bytes per tile in VRAM)
-    rl   b              ; ROM0:147F; Handles overflow; Completes 16-bit shift
-    add  hl, bc         ; ROM0:1481 - Calculate tile address - Add offset to base; Computes final VRAM address for tile
-    ld   a, 0x0C        ; ROM0:1483 - Possibly bank number - Set ROM bank; Selects bank 0x0C for tile data
-    ldh  (0xC8), a      ; ROM0:1485 - Store to HRAM - Save bank (was 0xFFC8); Updates HRAM with new bank number
-    ld   (0x3FFF), a    ; ROM0:1487 - Store to banking register - Switch bank; Switches ROM to bank 0x0C
-    ld   bc, 0x0008     ; ROM0:148A - 8 bytes to copy - Tile data size; Sets copy size (8 bytes, half a tile for 4x8?)
-    ld   de, 0xCDBD     ; ROM0:148D - Source in WRAM - Tile data location; Points to tile data buffer in WRAM
-    call 0x038E         ; ROM0:1490 - Memory copy routine - Copy tile to VRAM; Copies tile data to VRAM
-    ld   a, (0xCDCA)    ; ROM0:1493 - Load previous value - Get old bank; Retrieves previous bank number
-    ldh  (0xC8), a      ; ROM0:1496 - Restore bank - Return to previous bank (was 0xFFC8); Restores HRAM bank value
-    ld   (0x3FFF), a    ; ROM0:1498 - Restore banking register - Update hardware; Switches back to original bank
-    ret                 ; ROM0:149B - Return from tile copy; Ends tile loading routine
+.org 0x146F                ; Tile Data to VRAM
+    ld   hl, 0x7900        ; ROM0:146F - Sets VRAM address for tile data (0x7900-0x7FFF range)
+    ld   c, a              ; ROM0:1472 - A contains tile number - Set low byte; Sets tile index from accumulator
+    ld   b, 0x00           ; ROM0:1473 - Clear high byte - BC = tile number; Ensures BC is a 16-bit tile number with high byte zero
+    sla  c                 ; ROM0:1475 - Multiply by 8 - Shift left; Begins multiplying tile number by 16 (tile size)
+    rl   b                 ; ROM0:1477 - (tile data is 8 bytes per tile) - Rotate carry; Handles carry for 16-bit shift
+    sla  c                 ; ROM0:1479 - Shift Left Arithmetic effectively multiplies c by 2; Continues multiplication (now ×4)
+    rl   b                 ; ROM0:147B - Rotate Left through Carry on register b.; Handles carry
+    sla  c                 ; ROM0:147D - Multiplies by 8; Final shift to ×16 (16 bytes per tile in VRAM)
+    rl   b                 ; ROM0:147F - Handles overflow; Completes 16-bit shift
+    add  hl, bc            ; ROM0:1481 - Calculate tile address - Add offset to base; Computes final VRAM address for tile
+    ld   a, 0x0C           ; ROM0:1483 - Possibly bank number - Set ROM bank; Selects bank 0x0C for tile data
+    ldh  (0xC8), a         ; ROM0:1485 - Store to HRAM - Updates HRAM with new bank number
+    ld   (0x3FFF), a       ; ROM0:1487 - Store to banking register - Switches ROM to bank 0x0C
+    ld   bc, 0x0008        ; ROM0:148A - 8 bytes to copy - Tile data size; Sets copy size (8 bytes, half a tile for 4x8?)
+    ld   de, 0xCDBD        ; ROM0:148D - Source in WRAM - Points to tile data buffer in WRAM
+    call 0x038E            ; ROM0:1490 - Memory copy routine - Copies tile data to VRAM
+    ld   a, (0xCDCA)       ; ROM0:1493 - Load previous value - Retrieves previous bank number
+    ldh  (0xC8), a         ; ROM0:1496 - Restore bank - Restores HRAM bank value
+    ld   (0x3FFF), a       ; ROM0:1498 - Restore banking register - Update hardware
+    ret                    ; ROM0:149B - Ends tile loading routine
 
-.org 0x149B
-    ldh  a, (0xBC)      ; ROM0:149B - Load from HRAM - Get value (was 0xFFBC); Reads a game state or flag from HRAM
-    ld   (0xCDC7), a    ; ROM0:149D - Store to WRAM - Save in work RAM; Backs up value to WRAM for later use
-    ret                 ; ROM0:14A0 - Return from backup; Ends backup routine
+.org 0x149B                ; ROM0:149B - backup_flag(src = (HRAM: 0xBC), dest = (WRAM: 0xCDC7))
+    ldh  a, (0xBC)         ; ROM0:149B - Load from HRAM - Reads a game state or flag from HRAM
+    ld   (0xCDC7), a       ; ROM0:149D - Store to WRAM - Saves value to WRAM for later use
+    ret                    ; ROM0:14A0 - Ends backup routine
 
 .org 0x14A1
     call 0x149B         ; ROM0:14A1 - Copy HRAM to WRAM - Backup current state; Saves HRAM state before script processing
