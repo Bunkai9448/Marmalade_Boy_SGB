@@ -50,12 +50,14 @@
     ldh  (0x42), a         ; ROM0:039D - Store to SCY (background Y scroll register)
     ret                    ; ROM0:039F - Return after scroll update
 
-    xor  a, 0xFF        ; ROM0:03A0 - Invert all bits in A (one's complement)
-    ld   b, a           ; ROM0:03A2 - Store mask in B
-    ldh  a, (0xFF)      ; ROM0:03A3 - Load interrupt enable register (was 0xFFFF)
-    and  b              ; ROM0:03A5 - Clear bits where B is 0
-    ldh  (0xFF), a      ; ROM0:03A6 - Store updated interrupt enable (was 0xFFFF)
-    ret                 ; ROM0:03A8 - Return after interrupt mask update
+.org 0x03A0                ; ROM0:03A0 - Disables specific interrupts by masking the IE register with A xor 0xFF
+    xor  a, 0xFF           ; ROM0:03A0 - Invert all bits in A
+    ld   b, a              ; ROM0:03A2 - Store mask in B
+    ldh  a, (0xFF)         ; ROM0:03A3 - Load interrupt enable register
+    and  b                 ; ROM0:03A5 - Clear bits where B is 0
+    ldh  (0xFF), a         ; ROM0:03A6 - Store updated interrupt enable
+    ret                    ; ROM0:03A8 - Return after interrupt mask update
+
     ld   b, a           ; ROM0:03A9 - Save value in B
     xor  a              ; ROM0:03AA - Clear A (set to 0)
     ldh  (0x0F), a      ; ROM0:03AB - Clear interrupt flag register (was 0xFF0F)
