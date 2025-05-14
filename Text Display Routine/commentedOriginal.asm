@@ -186,32 +186,32 @@
     ld   (0xCDE8), a    ; ROM0:14DB - Update fourth target; Updates fourth stored value
     jp   0x198E         ; ROM0:14DE - Jump to script handler - Process new script position; Jumps to script execution
 
-.org 0x14E1             ; Text unrolling routine
-    ld   a, (0xCDDE)    ; ROM0:14E1 - Loads text delay or progress counter
-    and  a              ; ROM0:14E4 - Check if zero - Test completion
-    jp   z, 0x14EF      ; ROM0:14E5 - If zero, process next - Move to next step
-    ld   hl, 0xCDDE     ; ROM0:14E8 - Counter address - Point to counter
-    dec  (hl)           ; ROM0:14EB - Decrease counter
-    jp   0x155D         ; ROM0:14EC - Continue processing
-    ld   a, (0xCDDF)    ; ROM0:14EF - Load default counter - Get reset value
-    ld   (0xCDDE), a    ; ROM0:14F2 - Reset counter
-    ld   a, (0xCDDC)    ; ROM0:14F5 - Loads low byte of script address
-    ld   e, a           ; ROM0:14F8 - Store in E; Sets DE low byte
-    ld   a, (0xCDDD)    ; ROM0:14F9 - Loads high byte of script address
-    ld   d, a           ; ROM0:14FC - Store in D - DE now holds script pointer
+.org 0x14E1                ; Text unrolling routine
+    ld   a, (0xCDDE)       ; ROM0:14E1 - Loads text delay or progress counter
+    and  a                 ; ROM0:14E4 - Check if zero - Test completion
+    jp   z, 0x14EF         ; ROM0:14E5 - If zero, process next - Move to next step
+    ld   hl, 0xCDDE        ; ROM0:14E8 - Counter address - Point to counter
+    dec  (hl)              ; ROM0:14EB - Decrease counter
+    jp   0x155D            ; ROM0:14EC - Continue processing
+    ld   a, (0xCDDF)       ; ROM0:14EF - Load default counter - Get reset value
+    ld   (0xCDDE), a       ; ROM0:14F2 - Reset counter
+    ld   a, (0xCDDC)       ; ROM0:14F5 - Loads low byte of script address
+    ld   e, a              ; ROM0:14F8 - Store in E; Sets DE low byte
+    ld   a, (0xCDDD)       ; ROM0:14F9 - Loads high byte of script address
+    ld   d, a              ; ROM0:14FC - Store in D - DE now holds script pointer
 
-.org 0x14FD             ; Dictionary unrolling routine
-    ld   a, (de)        ; ROM0:14FD - Load character from script - Reads next script byte
-    cp   0xE0           ; ROM0:14FE - Checks if byte is a control code
-    jr   c, 0x150E      ; ROM0:1500 - Processes as text if < 0xE0
-    sub  a, 0xE0        ; ROM0:1502 - Adjust control code value - Converts code to table index
-    sla  a              ; ROM0:1504 - Shift left; Doubles index for word-sized table
-    ld   hl, 0x1CF8     ; ROM0:1506 - Points to control code jump table
-    rst  0x08           ; ROM0:1509 - Call reset vector 0x08; Computes table address (adds A to HL)
-    inc  hl             ; ROM0:150A - Points to high byte of handler
-    ld   h, (hl)        ; ROM0:150B - Loads handler address high byte
-    ld   l, a           ; ROM0:150C - Sets low byte from adjusted code
-    jp   hl             ; ROM0:150D - Jumps to control code handler
+.org 0x14FD                ; Dictionary unrolling routine
+    ld   a, (de)           ; ROM0:14FD - Load character from script - Reads next script byte
+    cp   0xE0              ; ROM0:14FE - Checks if byte is a control code
+    jr   c, 0x150E         ; ROM0:1500 - Processes as text if < 0xE0
+    sub  a, 0xE0           ; ROM0:1502 - Adjust control code value - Converts code to table index
+    sla  a                 ; ROM0:1504 - Shift left; Doubles index for word-sized table
+    ld   hl, 0x1CF8        ; ROM0:1506 - Points to control code jump table
+    rst  0x08              ; ROM0:1509 - Call reset vector 0x08; Computes table address (adds A to HL)
+    inc  hl                ; ROM0:150A - Points to high byte of handler
+    ld   h, (hl)           ; ROM0:150B - Loads handler address high byte
+    ld   l, a              ; ROM0:150C - Sets low byte from adjusted code
+    jp   hl                ; ROM0:150D - Jumps to control code handler
 
 .org 0x150E
     ld   a, (0xCE24)    ; ROM0:150E - Load value from 0xCE24 into A; Checks a text state flag
@@ -253,15 +253,15 @@
     xor  a              ; ROM0:1560 - Clear A; Sets return value to 0
     ret                 ; ROM0:1561 - Return from subroutine; Ends text processing
 
-.org 0x171C             ; Screen boundary check - Validate position
-    ld   a, (0xCDD9)    ; ROM0:171C - Load value from memory at 0xCDD9 into a; Loads screen boundary flag
-    and  a              ; ROM0:171F - Test if a is zero; Checks if boundary checking is enabled
-    jr   z, 0x1729      ; ROM0:1720 - Jump to 0x1729 if a is zero; Skips check if disabled
-    ld   a, h           ; ROM0:1722 - Load high byte (h) into a; Gets Y position high byte
-    cp   a, 0xA0        ; ROM0:1723 - Compare a with 0xA0 (screen boundary?); Checks if beyond VRAM tilemap (0x9800-0x9FFF)
-    ret  c              ; ROM0:1725 - Return if a < 0xA0; Returns if within bounds
-    ld   h, 0x9C        ; ROM0:1726 - Set h to 0x9C (clamp to boundary); Clamps Y to top of tilemap
-    ret                 ; ROM0:1728 - Return; Ends boundary check
+.org 0x171C                ; ROM0:171C - check_and_clamp_y_position(y_position = h, boundary_flag = (HRAM: 0xCDD9)) ; Screen boundary check?
+    ld   a, (0xCDD9)       ; ROM0:171C - Load value from memory at 0xCDD9 into a; Loads screen boundary flag
+    and  a                 ; ROM0:171F - Test if a is zero; Checks if boundary checking is enabled
+    jr   z, 0x1729         ; ROM0:1720 - Jump to 0x1729 if a is zero; Skips check if disabled
+    ld   a, h              ; ROM0:1722 - Load high byte (h) into a; Gets Y position high byte
+    cp   a, 0xA0           ; ROM0:1723 - Compare a with 0xA0 (screen boundary?); Checks if beyond VRAM tilemap (0x9800-0x9FFF)
+    ret  c                 ; ROM0:1725 - Return if a < 0xA0; Returns if within bounds
+    ld   h, 0x9C           ; ROM0:1726 - Set h to 0x9C (clamp to boundary); Clamps Y to top of tilemap
+    ret                    ; ROM0:1728 - Return; Ends boundary check
 
 .org 0x1790
     inc  hl             ; ROM0:1790 - Increment HL to next tile; Advances cursor to next tile
@@ -276,123 +276,121 @@
     ld   h, a           ; ROM0:179C - Update H; Updates Y position
     ret                 ; ROM0:179D - Return; Ends position adjustment
 
-.org 0x17D0               ; subroutine convert character to tile
-    push de               ; ROM0:17D0 D5 - Save the value of DE register pair to stack
-    ld   a,(de)           ; ROM0:17D1 1A - Load the value at the memory location pointed to by DE into register A
-    call 0x146F           ; ROM0:17D2 CD 6F 14 - Call function at address 0x146F
-    ld   de,0xCDBD        ; ROM0:17D5 11 BD CD - Load the address 0xCDBD into DE register pair
-    ld   hl,0x8000        ; ROM0:17D8 21 00 80 - Load the address 0x8000 into HL register pair
-    ld   a,(0xCDCD)       ; ROM0:17DB FA CD CD - Load the value at address 0xCDCD into register A
-    ld   b,a              ; ROM0:17DE 47 - Copy value from register A into register B
-    ld   a,(0xCDE1)       ; ROM0:17DF FA E1 CD - Load the value at address 0xCDE1 into register A
-    add a,b               ; ROM0:17E2 80 - Add the value of register B to register A
-    cp   a,0x80           ; ROM0:17E3 FE 80 - Compare register A with 0x80
-    jr   nc,0x17EA        ; ROM0:17E5 30 03 - Jump if no carry (A >= 0x80) to address 0x17EA
-    ld   hl,0x9000        ; ROM0:17E7 21 00 90 - Load the address 0x9000 into HL register pair
-    ld   c,a              ; ROM0:17EA 4F - Copy the value of A into register C
-    ld   b,0x00           ; ROM0:17EB 06 00 - Set register B to 0 (initialize counter)
-    sla  c                ; ROM0:17ED CB 21 - Perform a left shift on register C (multiply by 2)
-    rl   b                ; ROM0:17EF CB 10 - Rotate left through carry on register B
-    sla  c                ; ROM0:17F1 CB 21 - Perform another left shift on register C (multiply by 2)
-    rl   b                ; ROM0:17F3 CB 10 - Rotate left through carry on register B
-    sla  c                ; ROM0:17F5 CB 21 - Perform another left shift on register C (multiply by 2)
-    rl   b                ; ROM0:17F7 CB 10 - Rotate left through carry on register B
-    sla  c                ; ROM0:17F9 CB 21 - Perform another left shift on register C (multiply by 2)
-    rl   b                ; ROM0:17FB CB 10 - Rotate left through carry on register B
-    add  hl,bc            ; ROM0:17FD 09 - Add the value of BC to HL (calculate address offset)
-    ld   b,0x08           ; ROM0:17FE 06 08 - Set register B to 8 (loop counter)
-    ld   a,(de)           ; ROM0:1800 1A - Load the value at address DE into register A
-    rst  0x20             ; ROM0:1801 E7 - Call the subroutine at address 0x0020 (software interrupt)
-    inc  hl               ; ROM0:1802 23 - Increment the HL register pair
-    ld   a,(de)           ; ROM0:1803 1A - Load the value at address DE into register A
-    rst  0x20             ; ROM0:1804 E7 - Call the subroutine at address 0x0020 (software interrupt)
-    inc  de               ; ROM0:1805 13 - Increment the DE register pair
-    inc  hl               ; ROM0:1806 23 - Increment the HL register pair
-    dec  b                ; ROM0:1807 05 - Decrement the value in register B (loop counter)
-    jr   nz,0x1800        ; ROM0:1808 20 F6 - Jump to address 0x1800 if B is not zero (repeat loop)
-    pop  de               ; ROM0:180A D1 - Restore the value of DE register pair from stack
-    ret                   ; ROM0:180B C9 - Return from the current subroutine
+.org 0x17D0                ; subroutine convert character to tile
+    push de                ; ROM0:17D0 - Save the value of DE register pair to stack
+    ld   a,(de)            ; ROM0:17D1 - Load the value at the memory location pointed to by DE into register A
+    call 0x146F            ; ROM0:17D2 - Call function at address 0x146F
+    ld   de,0xCDBD         ; ROM0:17D5 - Load the address 0xCDBD into DE register pair
+    ld   hl,0x8000         ; ROM0:17D8 - Load the address 0x8000 into HL register pair
+    ld   a,(0xCDCD)        ; ROM0:17DB - Load the value at address 0xCDCD into register A
+    ld   b,a               ; ROM0:17DE - Copy value from register A into register B
+    ld   a,(0xCDE1)        ; ROM0:17DF - Load the value at address 0xCDE1 into register A
+    add a,b                ; ROM0:17E2 - Add the value of register B to register A
+    cp   a,0x80            ; ROM0:17E3 - Compare register A with 0x80
+    jr   nc,0x17EA         ; ROM0:17E5 - Jump if no carry (A >= 0x80) to address 0x17EA
+    ld   hl,0x9000         ; ROM0:17E7 - Load the address 0x9000 into HL register pair
+    ld   c,a               ; ROM0:17EA - Copy the value of A into register C
+    ld   b,0x00            ; ROM0:17EB - Set register B to 0 (initialize counter)
+    sla  c                 ; ROM0:17ED - Perform a left shift on register C (multiply by 2)
+    rl   b                 ; ROM0:17EF - Rotate left through carry on register B
+    sla  c                 ; ROM0:17F1 - Perform another left shift on register C (multiply by 2)
+    rl   b                 ; ROM0:17F3 - Rotate left through carry on register B
+    sla  c                 ; ROM0:17F5 - Perform another left shift on register C (multiply by 2)
+    rl   b                 ; ROM0:17F7 - Rotate left through carry on register B
+    sla  c                 ; ROM0:17F9 - Perform another left shift on register C (multiply by 2)
+    rl   b                 ; ROM0:17FB - Rotate left through carry on register B
+    add  hl,bc             ; ROM0:17FD - Add the value of BC to HL (calculate address offset)
+    ld   b,0x08            ; ROM0:17FE - Set register B to 8 (loop counter)
+    ld   a,(de)            ; ROM0:1800 - Load the value at address DE into register A
+    rst  0x20              ; ROM0:1801 - Call the subroutine at address 0x0020 (software interrupt)
+    inc  hl                ; ROM0:1802 - Increment the HL register pair
+    ld   a,(de)            ; ROM0:1803 - Load the value at address DE into register A
+    rst  0x20              ; ROM0:1804 - Call the subroutine at address 0x0020 (software interrupt)
+    inc  de                ; ROM0:1805 - Increment the DE register pair
+    inc  hl                ; ROM0:1806 - Increment the HL register pair
+    dec  b                 ; ROM0:1807 - Decrement the value in register B (loop counter)
+    jr   nz,0x1800         ; ROM0:1808 - Jump to address 0x1800 if B is not zero (repeat loop)
+    pop  de                ; ROM0:180A - Restore the value of DE register pair from stack
+    ret                    ; ROM0:180B - Return from the current subroutine
 
-.org 0x1BBC          ; Start of routine - Buffer management
-    ld   a, (0xCDC6)    ; ROM0:1BBC - Load a flag or counter from WRAM; Checks text buffer state
-    and  a              ; ROM0:1BBF - Test if a is zero; Tests if buffer is ready
-    ret  nz             ; ROM0:1BC0 - Return if non-zero, else continue; Exits if buffer busy
-    ldh  a, (0xB8)      ; ROM0:1BC1 - Load value from HRAM at 0xFFB8 into a; Loads current character or state
-    cp   a, 0x26        ; ROM0:1BC3 - Compare a with 0x26 (check specific state); Checks for special char (e.g., punctuation)
-    jr   z, 0x1BEE      ; ROM0:1BC5 - Jump to 0x1BEE if equal (handle case 0x26); Handles special case
-    cp   a, 0x2D        ; ROM0:1BC7 - Compare a with 0x2D (another state check); Checks for another special char
-    jr   z, 0x1BEE      ; ROM0:1BC9 - Jump to 0x1BEE if equal (handle case 0x2D); Handles special case
-    cp   a, 0x05        ; ROM0:1BCB - Compare a with 0x05; Checks for control code or space
-    jr   z, 0x1BD9      ; ROM0:1BCD - Jump to 0x1BD9 if equal (handle case 0x05); Processes space-like char
-    cp   a, 0x20        ; ROM0:1BCF - Compare a with 0x20; Checks for space character
-    jr   z, 0x1BD9      ; ROM0:1BD1 - Jump to 0x1BD9 if equal (handle case 0x20); Processes space
-    cp   a, 0x11        ; ROM0:1BD3 - Compare a with 0x11; Checks for another control code
-    jr   z, 0x1BD9      ; ROM0:1BD5 - Jump to 0x1BD9 if equal (handle case 0x11); Processes special char
-    jr   0x1BF2         ; ROM0:1BD7 - Jump to 0x1BF2 (default case); Handles regular characters
-    ld   hl, 0xCDD6     ; ROM0:1BD9 - Load address 0xCDD6 into hl (start of 0x05/0x20/0x11 case); Points to text flag
-    bit  0, (hl)        ; ROM0:1BDC - Test bit 0 of value at (hl); Checks if space rendering is enabled
-    jr   nz, 0x1BF2     ; ROM0:1BDE - Jump to 0x1BF2 if bit 0 is set; Treats as regular char if flag set
-    ld   a, (0xD505)    ; ROM0:1BE0 - Load value from 0xD505 (another WRAM check); Checks text mode or counter
-    and  a              ; ROM0:1BE3 - Test if a is zero; Tests if mode is active
-    jr   z, 0x1BF2      ; ROM0:1BE4 - Jump to 0x1BF2 if zero; Treats as regular char if inactive
-    cp   a, 0x03        ; ROM0:1BE6 - Compare a with 0x03; Checks for specific mode
-    jr   z, 0x1BF6      ; ROM0:1BE8 - Jump to 0x1BF6 if equal (set 0x05); Sets special buffer state
-    cp   a, 0x04        ; ROM0:1BEA - Compare a with 0x04; Checks for another mode
-    jr   z, 0x1BF6      ; ROM0:1BEC - Jump to 0x1BF6 if equal (set 0x05); Sets special buffer state
-    ld   a, 0x04        ; ROM0:1BEE - Load 0x04 into a (case 0x26/0x2D); Sets buffer state for punctuation
-    jr   0x1BF8         ; ROM0:1BF0 - Jump to 0x1BF8 (store and return); Stores and exits
-    ld   a, 0x05        ; ROM0:1BF2 - Load 0x05 into a (default case); Sets default buffer state for text
-    jr   0x1BF8         ; ROM0:1BF4 - Jump to 0x1BF8 (store and return); Stores and exits
-    ld   a, 0x06        ; ROM0:1BF6 - Load 0x06 into a (case 0x03/0x04); Sets buffer state for special mode
-    ldh  (0xCB), a      ; ROM0:1BF8 - Store a into HRAM at 0xFFCB; Updates text buffer control in HRAM
-    ret                 ; ROM0:1BFA - Return; Ends buffer management
+.org 0x1BBC                ; Start of routine - Buffer management
+    ld   a, (0xCDC6)       ; ROM0:1BBC - Load a flag or counter from WRAM; Checks text buffer state
+    and  a                 ; ROM0:1BBF - Test if a is zero; Tests if buffer is ready
+    ret  nz                ; ROM0:1BC0 - Return if non-zero, else continue; Exits if buffer busy
+    ldh  a, (0xB8)         ; ROM0:1BC1 - Load value from HRAM at 0xFFB8 into a; Loads current character or state
+    cp   a, 0x26           ; ROM0:1BC3 - Compare a with 0x26 (check specific state); Checks for special char (e.g., punctuation)
+    jr   z, 0x1BEE         ; ROM0:1BC5 - Jump to 0x1BEE if equal (handle case 0x26); Handles special case
+    cp   a, 0x2D           ; ROM0:1BC7 - Compare a with 0x2D (another state check); Checks for another special char
+    jr   z, 0x1BEE         ; ROM0:1BC9 - Jump to 0x1BEE if equal (handle case 0x2D); Handles special case
+    cp   a, 0x05           ; ROM0:1BCB - Compare a with 0x05; Checks for control code or space
+    jr   z, 0x1BD9         ; ROM0:1BCD - Jump to 0x1BD9 if equal (handle case 0x05); Processes space-like char
+    cp   a, 0x20           ; ROM0:1BCF - Compare a with 0x20; Checks for space character
+    jr   z, 0x1BD9         ; ROM0:1BD1 - Jump to 0x1BD9 if equal (handle case 0x20); Processes space
+    cp   a, 0x11           ; ROM0:1BD3 - Compare a with 0x11; Checks for another control code
+    jr   z, 0x1BD9         ; ROM0:1BD5 - Jump to 0x1BD9 if equal (handle case 0x11); Processes special char
+    jr   0x1BF2            ; ROM0:1BD7 - Jump to 0x1BF2 (default case); Handles regular characters
+    ld   hl, 0xCDD6        ; ROM0:1BD9 - Load address 0xCDD6 into hl (start of 0x05/0x20/0x11 case); Points to text flag
+    bit  0, (hl)           ; ROM0:1BDC - Test bit 0 of value at (hl); Checks if space rendering is enabled
+    jr   nz, 0x1BF2        ; ROM0:1BDE - Jump to 0x1BF2 if bit 0 is set; Treats as regular char if flag set
+    ld   a, (0xD505)       ; ROM0:1BE0 - Load value from 0xD505 (another WRAM check); Checks text mode or counter
+    and  a                 ; ROM0:1BE3 - Test if a is zero; Tests if mode is active
+    jr   z, 0x1BF2         ; ROM0:1BE4 - Jump to 0x1BF2 if zero; Treats as regular char if inactive
+    cp   a, 0x03           ; ROM0:1BE6 - Compare a with 0x03; Checks for specific mode
+    jr   z, 0x1BF6         ; ROM0:1BE8 - Jump to 0x1BF6 if equal (set 0x05); Sets special buffer state
+    cp   a, 0x04           ; ROM0:1BEA - Compare a with 0x04; Checks for another mode
+    jr   z, 0x1BF6         ; ROM0:1BEC - Jump to 0x1BF6 if equal (set 0x05); Sets special buffer state
+    ld   a, 0x04           ; ROM0:1BEE - Load 0x04 into a (case 0x26/0x2D); Sets buffer state for punctuation
+    jr   0x1BF8            ; ROM0:1BF0 - Jump to 0x1BF8 (store and return); Stores and exits
+    ld   a, 0x05           ; ROM0:1BF2 - Load 0x05 into a (default case); Sets default buffer state for text
+    jr   0x1BF8            ; ROM0:1BF4 - Jump to 0x1BF8 (store and return); Stores and exits
+    ld   a, 0x06           ; ROM0:1BF6 - Load 0x06 into a (case 0x03/0x04); Sets buffer state for special mode
+    ldh  (0xCB), a         ; ROM0:1BF8 - Store a into HRAM at 0xFFCB; Updates text buffer control in HRAM
+    ret                    ; ROM0:1BFA - Return; Ends buffer management
 
-.org 0x1D88 ; Control code handler (In the dictionary section)
-    ld   a, (de)        ; ROM0:1D88 - Load character - Get next script byte; Reads next script byte
-    cp   0xFD           ; ROM0:1D89 - Checks for Tenten-kana
-    jr   z, 0x1DAF      ; ROM0:1D8B - Jump to handle tenten
-    cp   0xFE           ; ROM0:1D8D - Checks for Maruten-kana
-    jr   z, 0x1DB3      ; ROM0:1D8F - Jump to handle maruten
-    cp   0xFF           ; ROM0:1D91 - Checks for space character
-    jr   z, 0x1DE2      ; ROM0:1D93 - Jump to handle space
-    cp   0xF0           ; ROM0:1D95 - Checks for text end code
-    jp   z, 0x1E2F      ; ROM0:1D97 - Jump to end text processing
-    cp   0xF2           ; ROM0:1D9A - Checks for newline code
-    jr   z, 0x1DE9      ; ROM0:1D9C - Jump to handle newline
-    cp   0xF3           ; ROM0:1D9E - Check for skip input (?)
-    jp   z, 0x1E21      ; ROM0:1DA0 - Skips input delay
-    cp   0xFB           ; ROM0:1DA3 - Checks for buffer continue code (?)
-    jp   z, 0x1E41      ; ROM0:1DA5 - Continues text buffer
-    cp   0xFC           ; ROM0:1DA8 - Checks for ellipsis '...' code
-    jp   z, 0x1E85      ; ROM0:1DAA - Jump to handle ellipsis
-    jr   0x1DC4         ; ROM0:1DAD - Processes regular text char (actual display print?)
+.org 0x1D88                ; ROM0:1D88 - Control code handler (In the dictionary section)
+    ld   a, (de)           ; ROM0:1D88 - Load character - Get next script byte; Reads next script byte
+    cp   0xFD              ; ROM0:1D89 - Checks for Tenten-kana
+    jr   z, 0x1DAF         ; ROM0:1D8B - Jump to handle tenten
+    cp   0xFE              ; ROM0:1D8D - Checks for Maruten-kana
+    jr   z, 0x1DB3         ; ROM0:1D8F - Jump to handle maruten
+    cp   0xFF              ; ROM0:1D91 - Checks for space character
+    jr   z, 0x1DE2         ; ROM0:1D93 - Jump to handle space
+    cp   0xF0              ; ROM0:1D95 - Checks for text end code
+    jp   z, 0x1E2F         ; ROM0:1D97 - Jump to end text processing
+    cp   0xF2              ; ROM0:1D9A - Checks for newline code
+    jr   z, 0x1DE9         ; ROM0:1D9C - Jump to handle newline
+    cp   0xF3              ; ROM0:1D9E - Check for skip input (?)
+    jp   z, 0x1E21         ; ROM0:1DA0 - Skips input delay
+    cp   0xFB              ; ROM0:1DA3 - Checks for buffer continue code (?)
+    jp   z, 0x1E41         ; ROM0:1DA5 - Continues text buffer
+    cp   0xFC              ; ROM0:1DA8 - Checks for ellipsis '...' code
+    jp   z, 0x1E85         ; ROM0:1DAA - Jump to handle ellipsis
+    jr   0x1DC4            ; ROM0:1DAD - Processes regular text char (actual display print?)
 
-.org 0x1DAF           ; ROM0:1DAF - Set program start address at 0x1DAF
+.org 0x1DAF                ; ROM0:1DAF - 
+    ld   b,0xFA            ; ROM0:1DAF - Load 0xFA into register B (preparing a value)
+    jr   0x1DB5            ; ROM0:1DB1 - Jump to address 0x1DB5 (relative jump)
+    ld   b,0xFB            ; ROM0:1DB3 - Load 0xFB into register B (update the value in B)
+    ld   a,(0xCDDA)        ; ROM0:1DB5 - Load the value at memory address 0xCDDA into register A
+    ld   l,a               ; ROM0:1DB8 - Copy the value from A into register L (lower byte of HL)
+    ld   a,(0xCDDB)        ; ROM0:1DB9 - Load the value at memory address 0xCDDB into register A
+    ld   h,a               ; ROM0:1DBC - Copy the value from A into register H (upper byte of HL)
+    ld   a,b               ; ROM0:1DBD - Load the value from register B into A
+    rst  0x20              ; ROM0:1DBE - Call software interrupt (RST 0x20), typically used for specific tasks like graphics or sound
+    inc  de                ; ROM0:1DBF - Increment the value in register pair DE (typically used for pointer increment)
+    ld   hl,0xCDE0         ; ROM0:1DC0 - Load memory address 0xCDE0 into HL register pair (pointer to a location in memory)
+    inc  (hl)              ; ROM0:1DC3 - Increment the value at the memory address pointed to by HL (likely updating data at that location)
 
-    ld   b,0xFA          ; ROM0:1DAF - Load 0xFA into register B (preparing a value)
-    jr   0x1DB5          ; ROM0:1DB1 - Jump to address 0x1DB5 (relative jump)
-    ld   b,0xFB          ; ROM0:1DB3 - Load 0xFB into register B (update the value in B)
-    ld   a,(0xCDDA)      ; ROM0:1DB5 - Load the value at memory address 0xCDDA into register A
-    ld   l,a             ; ROM0:1DB8 - Copy the value from A into register L (lower byte of HL)
-    ld   a,(0xCDDB)      ; ROM0:1DB9 - Load the value at memory address 0xCDDB into register A
-    ld   h,a             ; ROM0:1DBC - Copy the value from A into register H (upper byte of HL)
-    ld   a,b             ; ROM0:1DBD - Load the value from register B into A
-    rst  0x20            ; ROM0:1DBE - Call software interrupt (RST 0x20), typically used for specific tasks like graphics or sound
-    inc  de              ; ROM0:1DBF - Increment the value in register pair DE (typically used for pointer increment)
-    ld   hl,0xCDE0       ; ROM0:1DC0 - Load memory address 0xCDE0 into HL register pair (pointer to a location in memory)
-    inc  (hl)            ; ROM0:1DC3 - Increment the value at the memory address pointed to by HL (likely updating data at that location)
-
-
-.org 0x1DC4 ; Character processing - Text to display conversion
-    call 0x17D0         ; ROM0:1DC4 - Character to tile
-    call 0x1BBC         ; ROM0:1DC7 - Buffer management - Add to display buffer
-    ld   a, (0xCDDA)    ; ROM0:1DCA - Load current position - Get X coordinate
-    ld   l, a           ; ROM0:1DCD - Store in L; Sets HL low byte
-    ld   a, (0xCDDB)    ; ROM0:1DCE - Get Y coordinate
-    ld   h, a           ; ROM0:1DD1 - Store in H - HL = position; HL holds cursor position
-    ld   bc, 0x0020     ; ROM0:1DD2 - Next line offset - 32 tiles per line; Sets offset for next tilemap row
-    add  hl, bc         ; ROM0:1DD5 - Advance position - Move to next line; Advances cursor to next line
-    call 0x171C         ; ROM0:1DD7 - Screen boundary check - Validate position; Ensures cursor stays on screen
+.org 0x1DC4                ; ROM0:1DC4 - Character processing - Text to display conversion
+    call 0x17D0            ; ROM0:1DC4 - Character to tile
+    call 0x1BBC            ; ROM0:1DC7 - Buffer management - Add to display buffer
+    ld   a, (0xCDDA)       ; ROM0:1DCA - Load current position - Get X coordinate
+    ld   l, a              ; ROM0:1DCD - Store in L; Sets HL low byte
+    ld   a, (0xCDDB)       ; ROM0:1DCE - Get Y coordinate
+    ld   h, a              ; ROM0:1DD1 - Store in H - HL = position; HL holds cursor position
+    ld   bc, 0x0020        ; ROM0:1DD2 - Next line offset - 32 tiles per line; Sets offset for next tilemap row
+    add  hl, bc            ; ROM0:1DD5 - Advance position - Move to next line; Advances cursor to next line
+    call 0x171C            ; ROM0:1DD7 - Screen boundary check - Validate position; Ensures cursor stays on screen
 
 .org 0x1DE2
     ld   hl, 0xCDE0     ; ROM0:1DE2 - Load HL with 0xCDE0; Points to space counter or flag
@@ -446,7 +444,7 @@
     pop  de             ; ROM0:1E45 - Restore DE; Restores script pointer
     ret                 ; ROM0:1E46 - Return; Ends control code handling
 
-.org 0x1E85               ; ROM0:1E85 - Set program start address
+.org 0x1E85                ; ROM0:1E85
     ld   a,0x02          ; ROM0:1E85 3E 02 - Load 0x02 into register A
     ld   (0xCE24),a      ; ROM0:1E87 EA 24 CE - Store A (0x02) into memory address 0xCE24
     jr   0x1E7D          ; ROM0:1E8A 18 F1 - Jump to address 0x1E7D (relative jump)
@@ -464,8 +462,7 @@
     ld   hl,0xCDE4       ; ROM0:1EA8 21 E4 CD - Load memory address 0xCDE4 into HL register pair
     rst  0x08            ; ROM0:1EAB CF - Call software interrupt (RST 0x08), likely to trigger a display or graphics update
 
-
-.org 0x2F25          ; Line count check - Text formatting (default case ends game intro)
+.org 0x2F25                ; Line count check - Text formatting (default case ends game intro)
     ld   a, (0xD525)    ; ROM0:2F25 - Paragraph lines - Get line count; Loads number of text lines
     cp   0x01           ; ROM0:2F28 - Compare with 1; Checks for single line
     jr   c, 0x2F88      ; ROM0:2F2A - Less than 1 - Empty text; Handles empty text
@@ -501,7 +498,7 @@
     jr   c, 0x2F88      ; ROM0:2F71 - Less than 21 - Empty or invalid (20 lines); Invalid case for 20 lines
     jp   0x3201         ; ROM0:2F73 - Greater than or equal to 21 - Default or max case; Handles max or overflow case
 
-.org 0x2F75 ; Display update - Screen refresh
+.org 0x2F75                ; Display update - Screen refresh
     call 0x0B8D         ; ROM0:2F75 - Various screen - Update routine 1; Updates background tiles
     call 0x24FA         ; ROM0:2F78 - update routines - Update routine 2; Updates sprite positions
     call 0x1B3C         ; ROM0:2F7B - Update routine 3; Updates text buffer to VRAM
@@ -510,11 +507,12 @@
     call 0x0B9D         ; ROM0:2F84 - Update routine 6; Finalizes frame rendering
     ret                 ; ROM0:2F87 - Returns to 0x01BE - Complete update; Ends display update
 
-.org 0x2F8B ; Input check - User interaction
+.org 0x2F8B                ; Input check - User interaction
     and  a              ; ROM0:2F8B - Check A register - Test for input; Tests if input was detected
     jr   z, 0x2F75      ; ROM0:2F8C - If zero, update display - Refresh if no input; Updates screen if no input
 
-.org 0x33900 ; Font Tiles, 8x8 1bpp Japanese Charset // AND each byte with 0xF0 to blank out the right half of the tile for an 8×4 test
+.org 0x33900               ; Font Tiles, 8x8 1bpp Japanese Charset 
+; AND each byte with 0xF0 to blank out the right half of the tile for an 8×4 test
 db 0x00, 0x38, 0x44, 0x44, 0x44, 0x44, 0x44, 0x38  ; "0"
 db 0x00, 0x10, 0x30, 0x10, 0x10, 0x10, 0x10, 0x38  ; "1"
 db 0x00, 0x38, 0x44, 0x04, 0x18, 0x20, 0x40, 0x7C  ; "2"
