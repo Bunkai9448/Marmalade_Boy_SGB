@@ -80,45 +80,6 @@
     ld   e, a              ; ROM0:03C1 - Store result in E
     ret                    ; ROM0:03C2 - Return with 16-bit result in DE
 
-    ld   a, d           ; ROM0:03C3 - Load high byte
-    ldh  (0x8B), a      ; ROM0:03C4 - Store to HRAM temp high byte (was 0xFF8B)
-    ld   a, e           ; ROM0:03C6 - Load low byte
-    and  a, 0xE0        ; ROM0:03C7 - Mask upper 3 bits (tile Y)
-    ldh  (0x8A), a      ; ROM0:03C9 - Store to HRAM temp coordinate (was 0xFF8A)
-    ld   a, e           ; ROM0:03CB - Reload low byte
-    and  a, 0x1F        ; ROM0:03CC - Mask lower 5 bits (tile X)
-    ldh  (0x8C), a      ; ROM0:03CE - Store to HRAM temp X (was 0xFF8C)
-    ldh  a, (0xD0)      ; ROM0:03D0 - Load scroll X from HRAM (was 0xFFD0)
-    srl  a              ; ROM0:03D2 - Divide by 2
-    srl  a              ; ROM0:03D4 - Divide by 4
-    srl  a              ; ROM0:03D6 - Divide by 8 (convert pixels to tiles)
-    ld   b, a           ; ROM0:03D8 - Save tile offset
-    ldh  a, (0x8C)      ; ROM0:03D9 - Load temp X coordinate (was 0xFF8C)
-    add  a, b           ; ROM0:03DB - Add scroll offset
-    and  a, 0x1F        ; ROM0:03DC - Wrap around at 32 tiles
-    ld   b, a           ; ROM0:03DE - Save adjusted X
-    ldh  a, (0x8A)      ; ROM0:03DF - Load temp coordinate (was 0xFF8A)
-    or   b              ; ROM0:03E1 - Combine with X position
-    ldh  (0x8A), a      ; ROM0:03E2 - Store updated coordinate (was 0xFF8A)
-    ld   c, 0x00        ; ROM0:03E4 - Clear carry register
-    ldh  a, (0xD1)      ; ROM0:03E6 - Load scroll Y from HRAM (was 0xFFD1)
-    sla  a              ; ROM0:03E8 - Multiply by 2
-    rl   c              ; ROM0:03EA - Rotate carry into C
-    sla  a              ; ROM0:03EC - Multiply by 4
-    rl   c              ; ROM0:03EE - Rotate carry into C
-    and  a, 0xE0        ; ROM0:03F0 - Mask to tile coordinate
-    ld   b, a           ; ROM0:03F2 - Save Y tile position
-    ldh  a, (0x8A)      ; ROM0:03F3 - Load coordinate (was 0xFF8A)
-    add  a, b           ; ROM0:03F5 - Add Y position
-    ldh  (0x8A), a      ; ROM0:03F6 - Store updated coordinate (was 0xFF8A)
-    ldh  a, (0x8B)      ; ROM0:03F8 - Load high byte (was 0xFF8B)
-    adc  a, c           ; ROM0:03FA - Add carry from Y calculation
-    and  a, 0xFB        ; ROM0:03FB - Clear unused bits
-    ldh  (0x8B), a      ; ROM0:03FD - Store updated high byte (was 0xFF8B)
-    ldh  a, (0x8A)      ; ROM0:03FF - Load final coordinate (was 0xFF8A)
-    ld   e, a           ; ROM0:0401 - Store in E
-    ldh  a, (0x8B)      ; ROM0:0402 - Load final high byte (was 0xFF8B)
-
 .org 0x0572
     ; Placeholder for subroutine, check user input (Gamepad and buttons)
 
