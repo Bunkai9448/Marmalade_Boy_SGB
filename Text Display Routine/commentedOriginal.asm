@@ -43,11 +43,13 @@
     jr   nz, 0x038E        ; ROM0:0394 - Jump back if more bytes to copy
     ret                    ; ROM0:0396 - Return when copy complete
 
-    ldh  a, (0xD0)      ; ROM0:0397 - Load horizontal scroll value from HRAM (was 0xFFD0)
-    ldh  (0x43), a      ; ROM0:0399 - Store to SCX (background X scroll register) (was 0xFF43)
-    ldh  a, (0xD1)      ; ROM0:039B - Load vertical scroll value from HRAM (was 0xFFD1)
-    ldh  (0x42), a      ; ROM0:039D - Store to SCY (background Y scroll register) (was 0xFF42)
-    ret                 ; ROM0:039F - Return after scroll update
+.org 0x0397                ; ROM0:0397 - update_scroll(SCX = HRAM[0xD0], SCY = HRAM[0xD1])
+    ldh  a, (0xD0)         ; ROM0:0397 - Load horizontal scroll value from HRAM
+    ldh  (0x43), a         ; ROM0:0399 - Store to SCX (background X scroll register)
+    ldh  a, (0xD1)         ; ROM0:039B - Load vertical scroll value from HRAM
+    ldh  (0x42), a         ; ROM0:039D - Store to SCY (background Y scroll register)
+    ret                    ; ROM0:039F - Return after scroll update
+
     xor  a, 0xFF        ; ROM0:03A0 - Invert all bits in A (one's complement)
     ld   b, a           ; ROM0:03A2 - Store mask in B
     ldh  a, (0xFF)      ; ROM0:03A3 - Load interrupt enable register (was 0xFFFF)
