@@ -3,294 +3,35 @@
 
 .org 0x0134
     db   "GB MARMALADEBOY" ; ROM0:0134 - Game title
-    db   0x31            ; ROM0:0143 - CGB Flag: Does not apply
-    db   0x42, 0x32      ; ROM0:0144 - New Licensee Code: "B2" in ASCII (Used only if byte at 0x014B is 0x33)
-    db   0x03            ; ROM0:0146 - SGB Flag: 0x03 = supports Super Game Boy functions
-    db   0x01            ; ROM0:0147 - Cartridge Type: 0x01 = MBC1 (no RAM, no battery)
-    db   0x03            ;  ROM0:0148 - ROM Size: 0x03 = 256KB (16 banks of 16KB each)
-    db   0x00            ; ROM0:0149 - RAM Size: 0x00 = No RAM on cartridge
-    db   0x00            ; ROM0:014A - Destination Code: 0x00 = Japanese
-    db   0x33            ; ROM0:014B - Old Licensee Code: 0x33 = Use new licensee code at 0x0144
-    db   0x00            ; ROM0:014C - Mask ROM Version
-    db   0xF1            ; ROM0:014D - Header Checksum
-    db   0x99, 0xC1      ; ROM0:014E - Global Checksum
+    db   0x31              ; ROM0:0143 - CGB Flag: Does not apply
+    db   0x42, 0x32        ; ROM0:0144 - New Licensee Code: "B2" in ASCII (Used only if byte at 0x014B is 0x33)
+    db   0x03              ; ROM0:0146 - SGB Flag: 0x03 = supports Super Game Boy functions
+    db   0x01              ; ROM0:0147 - Cartridge Type: 0x01 = MBC1 (no RAM, no battery)
+    db   0x03              ; ROM0:0148 - ROM Size: 0x03 = 256KB (16 banks of 16KB each)
+    db   0x00              ; ROM0:0149 - RAM Size: 0x00 = No RAM on cartridge
+    db   0x00              ; ROM0:014A - Destination Code: 0x00 = Japanese
+    db   0x33              ; ROM0:014B - Old Licensee Code: 0x33 = Use new licensee code at 0x0144
+    db   0x00              ; ROM0:014C - Mask ROM Version
+    db   0xF1              ; ROM0:014D - Header Checksum
+    db   0x99, 0xC1        ; ROM0:014E - Global Checksum
 
-.org 0x0150
-    xor  a              ; ROM0:0150 - Clear A
-    ldh  (0xFE), a      ; ROM0:0151 - Store A at 0xFFFE (was 0xFFFE)
-    ld   a, 0xFF        ; ROM0:0153 - Load A with 0xFF
-    ldh  (0x47), a      ; ROM0:0155 - Store A at 0xFF47 (BGP) (was 0xFF47)
-    ldh  (0x48), a      ; ROM0:0157 - Store A at 0xFF48 (OBP0) (was 0xFF48)
-    ldh  (0x49), a      ; ROM0:0159 - Store A at 0xFF49 (OBP1) (was 0xFF49)
-    di                  ; ROM0:015B - Disable interrupts
-    ld   sp, 0xDFFF     ; ROM0:015C - Set stack pointer to 0xDFFF
-    ld   hl, 0xFF80     ; ROM0:015F - Load HL with 0xFF80
-    ld   bc, 0x007E     ; ROM0:0162 - Load BC with 0x007E
-    call 0x037D         ; ROM0:0165 - Call subroutine at 0x037D
-    ld   hl, 0xC000     ; ROM0:0168 - Load HL with 0xC000
-    ld   bc, 0x1E00     ; ROM0:016B - Load BC with 0x1E00
-    call 0x037D         ; ROM0:016E - Call subroutine at 0x037D
-    call 0x034B         ; ROM0:0171 - Call subroutine at 0x034B
-    ld   a, 0xFE        ; ROM0:0174 - Load A with 0xFE
-    ld   (0xC200), a    ; ROM0:0176 - Store A at 0xC200
-    xor  a              ; ROM0:0179 - Clear A
-    ld   (0xC201), a    ; ROM0:017A - Store A at 0xC201
-    ld   a, 0xFF        ; ROM0:017D - Load A with 0xFF
-    ld   (0xC202), a    ; ROM0:017F - Store A at 0xC202
-    ld   a, 0x0E        ; ROM0:0182 - Load A with 0x0E
-    ldh  (0xC8), a      ; ROM0:0184 - Store A at 0xFFC8 (was 0xFFC8)
-    ld   (0x3FFF), a    ; ROM0:0186 - Store A at 0x3FFF
-    call 0x4000         ; ROM0:0189 - Call subroutine at 0x4000
-    ld   a, 0x01        ; ROM0:018C - Load A with 0x01
-    ldh  (0xC8), a      ; ROM0:018E - Store A at 0xFFC8 (was 0xFFC8)
-    ld   (0x3FFF), a    ; ROM0:0190 - Store A at 0x3FFF
-    call 0x02A2         ; ROM0:0193 - Call subroutine at 0x02A2
-    call 0x13D7         ; ROM0:0196 - Call subroutine at 0x13D7
-    ld   a, 0x01        ; ROM0:0199 - Load A with 0x01
-    ldh  (0xFE), a      ; ROM0:019B - Store A at 0xFFFE (was 0xFFFE)
-    ld   a, 0x00        ; ROM0:019D - Load A with 0x00
-    ldh  (0x41), a      ; ROM0:019F - Store A at 0xFF41 (STAT) (was 0xFF41)
-    ld   a, 0x05        ; ROM0:01A1 - Load A with 0x05
-    call 0x03A9         ; ROM0:01A3 - Call subroutine at 0x03A9
-    ld   hl, 0xFFB9     ; ROM0:01A6 - Load HL with 0xFFB9
-    inc  (hl)           ; ROM0:01A9 - Increment value at HL
-    ldh  a, (0xB7)      ; ROM0:01AA - Load value at 0xFFB7 into A (was 0xFFB7)
-    sla  a              ; ROM0:01AC - Shift A left
-    ld   hl, 0x028C     ; ROM0:01AE - Load HL with 0x028C
-    rst  0x08           ; ROM0:01B1 - Call reset vector 0x08
-    inc  hl             ; ROM0:01B2 - Increment HL
-    ld   h, (hl)        ; ROM0:01B3 - Load value at HL into H
-    ld   l, a           ; ROM0:01B4 - Load A into L
-    jp   hl             ; ROM0:01B5 - Jump to address in HL
-    call 0x006B         ; ROM0:01B6 - Call subroutine at 0x006B
-    jr   0x01A6         ; ROM0:01B9 - Jump to 0x01A6
-    call 0x27BF         ; ROM0:01BB - Call subroutine at 0x27BF
-    call 0x0A3D         ; ROM0:01BE - Call subroutine at 0x0A3D
-    jr   c, 0x01B6      ; ROM0:01C1 - Jump to 0x01B6 if carry set
-    ld   a, 0xFF        ; ROM0:01C3 - Load A with 0xFF
-    ldh  (0x47), a      ; ROM0:01C5 - Store A at 0xFF47 (BGP) (was 0xFF47)
-    ldh  (0x48), a      ; ROM0:01C7 - Store A at 0xFF48 (OBP0) (was 0xFF48)
-    ldh  (0x49), a      ; ROM0:01C9 - Store A at 0xFF49 (OBP1) (was 0xFF49)
-    ld   a, 0x00        ; ROM0:01CB - Load A with 0x00
-    ldh  (0xFD), a      ; ROM0:01CD - Store A at 0xFFFD (was 0xFFFD)
-    ld   hl, 0x4009     ; ROM0:01CF - Load HL with 0x4009
-    call 0x007C         ; ROM0:01D2 - Call subroutine at 0x007C
-    ld   a, 0x00        ; ROM0:01D5 - Load A with 0x00
-    ldh  (0xFD), a      ; ROM0:01D7 - Store A at 0xFFFD (was 0xFFFD)
-    ld   hl, 0x4006     ; ROM0:01D9 - Load HL with 0x4006
-    call 0x007C         ; ROM0:01DC - Call subroutine at 0x007C
-    call 0x28A2         ; ROM0:01DF - Call subroutine at 0x28A2
-    ld   hl, 0x4003     ; ROM0:01E2 - Load HL with 0x4003
-    call 0x007C         ; ROM0:01E5 - Call subroutine at 0x007C
-    ld   a, 0x01        ; ROM0:01E8 - Load A with 0x01
-    ldh  (0xB7), a      ; ROM0:01EA - Store A at 0xFFB7 (was 0xFFB7)
-    jr   0x01B6         ; ROM0:01EC - Jump to 0x01B6
-    call 0x06B8         ; ROM0:01EE - Call subroutine at 0x06B8
-    call 0x28A2         ; ROM0:01F1 - Call subroutine at 0x28A2
-    call 0x06D7         ; ROM0:01F4 - Call subroutine at 0x06D7
-    jr   0x01E8         ; ROM0:01F7 - Jump to 0x01E8
-    call 0x06B8         ; ROM0:01F9 - Call subroutine at 0x06B8
-    call 0x28A2         ; ROM0:01FC - Call subroutine at 0x28A2
-    jr   0x01E8         ; ROM0:01FF - Jump to 0x01E8
-    call 0x0718         ; ROM0:0201 - Call subroutine at 0x0718
-    call 0x28A2         ; ROM0:0204 - Call subroutine at 0x28A2
-    call 0x0737         ; ROM0:0207 - Call subroutine at 0x0737
-    jr   0x01E8         ; ROM0:020A - Jump to 0x01E8
-    call 0x0718         ; ROM0:020C - Call subroutine at 0x0718
-    jr   0x01FC         ; ROM0:020F - Jump to 0x01FC
-    call 0x0B7E         ; ROM0:0211 - Call subroutine at 0x0B7E
-    call 0x0B8D         ; ROM0:0214 - Call subroutine at 0x0B8D
-    call 0x0920         ; ROM0:0217 - Call subroutine at 0x0920
-    call 0x0271         ; ROM0:021A - Call subroutine at 0x0271
-    ld   a, 0x00        ; ROM0:021D - Load A with 0x00
-    ldh  (0xFD), a      ; ROM0:021F - Store A at 0xFFFD (was 0xFFFD)
-    ld   hl, 0x4009     ; ROM0:0221 - Load HL with 0x4009
-    call 0x007C         ; ROM0:0224 - Call subroutine at 0x007C
-    call 0x226F         ; ROM0:0227 - Call subroutine at 0x226F
-    call 0x28A2         ; ROM0:022A - Call subroutine at 0x28A2
-    ld   hl, 0x401E     ; ROM0:022D - Load HL with 0x401E
-    call 0x007C         ; ROM0:0230 - Call subroutine at 0x007C
-    call 0x226F         ; ROM0:0233 - Call subroutine at 0x226F
-    ld   hl, 0x4021     ; ROM0:0236 - Load HL with 0x4021
-    call 0x007C         ; ROM0:0239 - Call subroutine at 0x007C
-    jr   0x01E8         ; ROM0:023C - Jump to 0x01E8
-    call 0x0B7E         ; ROM0:023E - Call subroutine at 0x0B7E
-    call 0x0B8D         ; ROM0:0241 - Call subroutine at 0x0B8D
-    call 0x0920         ; ROM0:0244 - Call subroutine at 0x0920
-    ld   a, 0x38        ; ROM0:0247 - Load A with 0x38
-    call 0x07F8         ; ROM0:0249 - Call subroutine at 0x07F8
-    ld   a, 0x00        ; ROM0:024C - Load A with 0x00
-    ldh  (0xFD), a      ; ROM0:024E - Store A at 0xFFFD (was 0xFFFD)
-    ld   hl, 0x4009     ; ROM0:0250 - Load HL with 0x4009
-    call 0x007C         ; ROM0:0253 - Call subroutine at 0x007C
-    call 0x22D1         ; ROM0:0256 - Call subroutine at 0x22D1
-    call 0x28A2         ; ROM0:0259 - Call subroutine at 0x28A2
-    ld   hl, 0x401E     ; ROM0:025C - Load HL with 0x401E
-    call 0x007C         ; ROM0:025F - Call subroutine at 0x007C
-    call 0x22E3         ; ROM0:0262 - Call subroutine at 0x22E3
-    ld   hl, 0x4021     ; ROM0:0265 - Load HL with 0x4021
-    call 0x007C         ; ROM0:0268 - Call subroutine at 0x007C
-    call 0x3CFB         ; ROM0:026B - Call subroutine at 0x3CFB
-    jp   0x01E8         ; ROM0:026E - Jump to 0x01E8
-    ld   hl, 0xC800     ; ROM0:0271 - Load HL with 0xC800
-    ld   a, 0xF9        ; ROM0:0274 - Load A with 0xF9
-    ldi  (hl), a        ; ROM0:0276 - Load A into HL, increment HL
-    ld   a, h           ; ROM0:0277 - Load H into A
-    cp   0xCC           ; ROM0:0278 - Compare A with 0xCC
-    jr   nz, 0x0274     ; ROM0:027A - Jump to 0x0274 if not equal
-    ret                 ; ROM0:027C - Return from subroutine
-    call 0x06B8         ; ROM0:027D - Call subroutine at 0x06B8
-    call 0x28A2         ; ROM0:0280 - Call subroutine at 0x28A2
-    call 0x06D7         ; ROM0:0283 - Call subroutine at 0x06D7
-    call 0x3CFB         ; ROM0:0286 - Call subroutine at 0x3CFB
-    jp   0x01E8         ; ROM0:0289 - Jump to 0x01E8
-    jp   0xBB01         ; ROM0:028C - Jump to 0xBB01
-    ld   bc, 0x01EE     ; ROM0:028F - Load BC with 0x01EE
-    ld   sp, hl         ; ROM0:0292 - Load HL into SP
-    ld   bc, 0x01F1     ; ROM0:0293 - Load BC with 0x01F1
-    ld   bc, 0x0C02     ; ROM0:0296 - Load BC with 0x0C02
-    ld   (bc), a        ; ROM0:0299 - Store A at BC
-    inc  b              ; ROM0:029A - Increment B
-    ld   (bc), a        ; ROM0:029B - Store A at BC
-    ld   de, 0x3E02     ; ROM0:029C - Load DE with 0x3E02
-    ld   (bc), a        ; ROM0:029F - Store A at BC
-    ld   a, l           ; ROM0:02A0 - Load L into A
-    ld   (bc), a        ; ROM0:02A1 - Store A at BC
-    ldh  a, (0xC9)      ; ROM0:02A2 - Load value at 0xFFC9 into A (was 0xFFC9)
-    ldh  (0xC8), a      ; ROM0:02A4 - Store A at 0xFFC8 (was 0xFFC8)
-    ld   (0x3FFF), a    ; ROM0:02A6 - Store A at 0x3FFF
-    ld   a, 0x01        ; ROM0:02A9 - Load A with 0x01
-    ld   (0xCE2B), a    ; ROM0:02AB - Store A at 0xCE2B
-    ld   a, 0x01        ; ROM0:02AE - Load A with 0x01
-    ldh  (0xDB), a      ; ROM0:02B0 - Store A at 0xFFDB (was 0xFFDB)
-    ldh  (0xDC), a      ; ROM0:02B2 - Store A at 0xFFDC (was 0xFFDC)
-    ld   (0xCE2F), a    ; ROM0:02B4 - Store A at 0xCE2F
-    call 0x0312         ; ROM0:02B7 - Call subroutine at 0x0312
-    ld   a, 0xFF        ; ROM0:02BA - Load A with 0xFF
-    ld   (0xCDE3), a    ; ROM0:02BC - Store A at 0xCDE3
-    ld   (0xCDD8), a    ; ROM0:02BF - Store A at 0xCDD8
-    ld   (0xCDB9), a    ; ROM0:02C2 - Store A at 0xCDB9
-    call 0x221A         ; ROM0:02C5 - Call subroutine at 0x221A
-    ret                 ; ROM0:02C8 - Return from subroutine
-    ldh  a, (0xBB)      ; ROM0:02C9 - Load value at 0xFFBB into A (was 0xFFBB)
-    cp   0x0F           ; ROM0:02CB - Compare A with 0x0F
-    ret  nz             ; ROM0:02CD - Return if not equal
-    ld   a, 0xFF        ; ROM0:02CE - Load A with 0xFF
-    ldh  (0x47), a      ; ROM0:02D0 - Store A at 0xFF47 (BGP) (was 0xFF47)
-    ldh  (0x48), a      ; ROM0:02D2 - Store A at 0xFF48 (OBP0) (was 0xFF48)
-    ldh  (0x49), a      ; ROM0:02D4 - Store A at 0xFF49 (OBP1) (was 0xFF49)
-    xor  a              ; ROM0:02D6 - Clear A
-    ldh  (0xCA), a      ; ROM0:02D7 - Store A at 0xFFCA (was 0xFFCA)
-    ldh  (0xCB), a      ; ROM0:02D9 - Store A at 0xFFCB (was 0xFFCB)
-    ld   a, 0x00        ; ROM0:02DB - Load A with 0x00
-    ldh  (0xFD), a      ; ROM0:02DD - Store A at 0xFFFD (was 0xFFFD)
-    ld   hl, 0x4009     ; ROM0:02DF - Load HL with 0x4009
-    call 0x007C         ; ROM0:02E2 - Call subroutine at 0x007C
-    ld   a, 0x00        ; ROM0:02E5 - Load A with 0x00
-    ldh  (0xFD), a      ; ROM0:02E7 - Store A at 0xFFFD (was 0xFFFD)
-    ld   hl, 0x4006     ; ROM0:02E9 - Load HL with 0x4006
-    call 0x007C         ; ROM0:02EC - Call subroutine at 0x007C
-    ldh  a, (0xBB)      ; ROM0:02EF - Load value at 0xFFBB into A (was 0xFFBB)
-    and  a              ; ROM0:02F1 - Test A for zero
-    jr   nz, 0x02EF     ; ROM0:02F2 - Jump to 0x02EF if not zero
-    jp   0x015B         ; ROM0:02F4 - Jump to 0x015B
-    push hl             ; ROM0:02F7 - Push HL to stack
-    push de             ; ROM0:02F8 - Push DE to stack
-    ldh  a, (0xEF)      ; ROM0:02F9 - Load value at 0xFFEF into A (was 0xFFEF)
-    ld   l, a           ; ROM0:02FB - Load A into L
-    ldh  a, (0xF0)      ; ROM0:02FC - Load value at 0xFFF0 into A (was 0xFFF0)
-    ld   h, a           ; ROM0:02FE - Load A into H
-    ld   e, l           ; ROM0:02FF - Load L into E
-    ld   d, h           ; ROM0:0300 - Load H into D
-    add  hl, hl         ; ROM0:0301 - Add HL to itself
-    add  hl, hl         ; ROM0:0302 - Add HL to itself
-    add  hl, de         ; ROM0:0303 - Add DE to HL
-    ld   de, 0x3711     ; ROM0:0304 - Load DE with 0x3711
-    add  hl, de         ; ROM0:0307 - Add DE to HL
-    ld   a, h           ; ROM0:0308 - Load H into A
-    ld   a, l           ; ROM0:0309 - Load L into A
-    ldh  (0xEF), a      ; ROM0:030A - Store A at 0xFFEF (was 0xFFEF)
-    ld   a, h           ; ROM0:030C - Load H into A
-    ldh  (0xF0), a      ; ROM0:030D - Store A at 0xFFF0 (was 0xFFF0)
-    pop  de             ; ROM0:030F - Pop DE from stack
-    pop  hl             ; ROM0:0310 - Pop HL from stack
-    ret                 ; ROM0:0311 - Return from subroutine
-    ld   a, 0x31        ; ROM0:0312 - Load A with 0x31
-    ldh  (0xF2), a      ; ROM0:0314 - Store A at 0xFFF2 (was 0xFFF2)
-    ld   a, 0x0B        ; ROM0:0316 - Load A with 0x0B
-    ldh  (0xF4), a      ; ROM0:0318 - Store A at 0xFFF4 (was 0xFFF4)
-    xor  a              ; ROM0:031A - Clear A
-    ldh  (0xF3), a      ; ROM0:031B - Store A at 0xFFF3 (was 0xFFF3)
-    ldh  (0xF5), a      ; ROM0:031D - Store A at 0xFFF5 (was 0xFFF5)
-    ld   a, 0x21        ; ROM0:031F - Load A with 0x21
-    ldh  (0xF6), a      ; ROM0:0321 - Store A at 0xFFF6 (was 0xFFF6)
-    ld   a, 0x85        ; ROM0:0323 - Load A with 0x85
-    ldh  (0xF7), a      ; ROM0:0325 - Store A at 0xFFF7 (was 0xFFF7)
-    ret                 ; ROM0:0327 - Return from subroutine
-    push hl             ; ROM0:0328 - Push HL to stack
-    push de             ; ROM0:0329 - Push DE to stack
-    push bc             ; ROM0:032A - Push BC to stack
-    ldh  a, (0xF2)      ; ROM0:032B - Load value at 0xFFF2 into A (was 0xFFF2)
-    ld   e, a           ; ROM0:032D - Load A into E
-    ldh  a, (0xF3)      ; ROM0:032E - Load value at 0xFFF3 into A (was 0xFFF3)
-    ld   d, a           ; ROM0:0330 - Load A into D
-    ldh  a, (0xF6)      ; ROM0:0331 - Load value at 0xFFF6 into A (was 0xFFF6)
-    ld   c, a           ; ROM0:0333 - Load A into C
-    ldh  a, (0xF7)      ; ROM0:0334 - Load value at 0xFFF7 into A (was 0xFFF7)
-    ld   b, a           ; ROM0:0336 - Load A into B
-    call 0x069D         ; ROM0:0337 - Call subroutine at 0x069D
-    ldh  a, (0xF4)      ; ROM0:033A - Load value at 0xFFF4 into A (was 0xFFF4)
-    ld   e, a           ; ROM0:033C - Load A into E
-    ldh  a, (0xF5)      ; ROM0:033D - Load value at 0xFFF5 into A (was 0xFFF5)
-    ld   d, a           ; ROM0:033F - Load A into D
-    add  hl, de         ; ROM0:0340 - Add DE to HL
-    ld   a, h           ; ROM0:0341 - Load H into A
-    ldh  (0xF7), a      ; ROM0:0342 - Store A at 0xFFF7 (was 0xFFF7)
-    ld   a, l           ; ROM0:0344 - Load L into A
-    ldh  (0xF6), a      ; ROM0:0345 - Store A at 0xFFF6 (was 0xFFF6)
-    pop  bc             ; ROM0:0347 - Pop BC from stack
-    pop  de             ; ROM0:0348 - Pop DE from stack
-    pop  hl             ; ROM0:0349 - Pop HL from stack
-    ret                 ; ROM0:034A - Return from subroutine
-    ld   c, 0x80        ; ROM0:034B - Load C with 0x80
-    ld   b, 0x0A        ; ROM0:034D - Load B with 0x0A
-    ld   hl, 0x0359     ; ROM0:034F - Load HL with 0x0359
-    ldi  a, (hl)        ; ROM0:0352 - Load from HL to A, increment HL
-    ld   (0xFF00+c), a  ; ROM0:0353 - Store A at 0xFF00+C
-    inc  c              ; ROM0:0354 - Increment C
-    dec  b              ; ROM0:0355 - Decrement B
-    jr   nz, 0x0352     ; ROM0:0356 - Jump to 0x0352 if not zero
-    ret                 ; ROM0:0358 - Return from subroutine
-    ld   a, 0xC0        ; ROM0:0359 - Load A with 0xC0
-    ldh  (0x46), a      ; ROM0:035B - Store A at 0xFF46 (DMA) (was 0xFF46)
-    ld   a, 0x28        ; ROM0:035D - Load A with 0x28
-    dec  a              ; ROM0:035F - Decrement A
-    jr   nz, 0x035F     ; ROM0:0360 - Jump to 0x035F if not zero
-    ret                 ; ROM0:0362 - Return from subroutine
-    ldh  a, (0x40)      ; ROM0:0363 - Load value at 0xFF40 into A (was 0xFF40)
-    or   a, 0x80        ; ROM0:0365 - OR A with 0x80
-    ldh  (0x40), a      ; ROM0:0367 - Store A at 0xFF40 (LCDC) (was 0xFF40)
-    ret                 ; ROM0:0369 - Return from subroutine
-    ldh  a, (0x40)      ; ROM0:036A - Load value at 0xFF40 into A (was 0xFF40)
-    and  a, 0x80        ; ROM0:036C - Mask A with 0x80
-    jr   z, 0x037C      ; ROM0:036E - Jump to 0x037C if zero
-    ldh  a, (0x44)      ; ROM0:0370 - Load value at 0xFF44 into A (was 0xFF44)
-    cp   0x91           ; ROM0:0372 - Compare A with 0x91
-    jr   nz, 0x0370     ; ROM0:0374 - Jump to 0x0370 if not equal
-    ldh  a, (0x40)      ; ROM0:0376 - Load value at 0xFF40 into A (was 0xFF40)
-    and  a, 0x7F        ; ROM0:0378 - Mask A with 0x7F
-    ldh  (0x40), a      ; ROM0:037A - Store A at 0xFF40 (LCDC) (was 0xFF40)
-    ret                 ; ROM0:037C - Return from subroutine
-    xor  a              ; ROM0:037D - Clear A
+.org 0x0150                ; ROM0:0150 - Start of Game Code
+    xor  a                 ; ROM0:0150 - Clear A
+    ldh  (0xFE), a         ; ROM0:0151 - Store A at 0xFFFE
+    ld   a, 0xFF           ; ROM0:0153 - Load A with 0xFF
+    ldh  (0x47), a         ; ROM0:0155 - Store A at 0xFF47 (BGP)
+    ldh  (0x48), a         ; ROM0:0157 - Store A at 0xFF48 (OBP0)
+    ldh  (0x49), a         ; ROM0:0159 - Store A at 0xFF49 (OBP1)
+    di                     ; ROM0:015B - Disable interrupts
 
-.org 0x0385
-    ld   a, 0xFF        ; ROM0:0385 - Load 0xFF (all bits set) into register A
-    ldi  (hl), a        ; ROM0:0387 - Load A into address HL and increment HL
-    dec  bc             ; ROM0:0388 - Decrement 16-bit counter BC
-    ld   a, c           ; ROM0:0389 - Load lower byte of counter into A
-    or   b              ; ROM0:038A - OR with upper byte to check if BC is zero
-    jr   nz, 0x0385     ; ROM0:038B - Jump back if BC not zero (fill loop)
-    ret                 ; ROM0:038D - Return when fill complete
+.org 0x0385                ; ROM0:0385 - memset(dest = HL, value = 0xFF, count = BC) ; fills VRAM to be used with 0xFF
+    ld   a, 0xFF           ; ROM0:0385 - Load 0xFF (all bits set) into register A
+    ldi  (hl), a           ; ROM0:0387 - Load A into address HL and increment HL
+    dec  bc                ; ROM0:0388 - Decrement 16-bit counter BC
+    ld   a, c              ; ROM0:0389 - Load lower byte of counter into A
+    or   b                 ; ROM0:038A - OR with upper byte to check if BC is zero
+    jr   nz, 0x0385        ; ROM0:038B - Jump back if BC not zero (fill loop)
+    ret                    ; ROM0:038D - Return when fill complete
 
     ldi  a, (hl)        ; ROM0:038E - Memory copy routine - Load from HL to A, increment HL
     ld   (de), a        ; ROM0:038F - Store A to address DE
