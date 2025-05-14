@@ -459,14 +459,14 @@
     jr   c, 0x2F88      ; ROM0:2F71 - Less than 21 - Empty or invalid (20 lines); Invalid case for 20 lines
     jp   0x3201         ; ROM0:2F73 - Greater than or equal to 21 - Default or max case; Handles max or overflow case
 
-.org 0x2F75                ; Display update - Screen refresh
-    call 0x0B8D         ; ROM0:2F75 - Various screen - Update routine 1; Updates background tiles
-    call 0x24FA         ; ROM0:2F78 - update routines - Update routine 2; Updates sprite positions
-    call 0x1B3C         ; ROM0:2F7B - Update routine 3; Updates text buffer to VRAM
-    call 0x1B50         ; ROM0:2F7E - Update routine 4; Adjusts scroll values
-    call 0x26CE         ; ROM0:2F81 - Update routine 5; Refreshes palettes
-    call 0x0B9D         ; ROM0:2F84 - Update routine 6; Finalizes frame rendering
-    ret                 ; ROM0:2F87 - Returns to 0x01BE - Complete update; Ends display update
+.org 0x2F75                ; Screen refresh
+    call 0x0B8D         ; ROM0:2F75 - Updates background tiles
+    call 0x24FA         ; ROM0:2F78 - Updates sprite positions
+    call 0x1B3C         ; ROM0:2F7B - Updates text buffer to VRAM
+    call 0x1B50         ; ROM0:2F7E - Adjusts scroll values
+    call 0x26CE         ; ROM0:2F81 - Refreshes palettes
+    call 0x0B9D         ; ROM0:2F84 - Finalizes frame rendering
+    ret                 ; ROM0:2F87 - Ends display update
 
 .org 0x2F8B                ; Input check - User interaction
     and  a              ; ROM0:2F8B - Check A register - Test for input; Tests if input was detected
