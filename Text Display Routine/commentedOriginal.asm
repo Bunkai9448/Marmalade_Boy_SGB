@@ -33,14 +33,16 @@
     jr   nz, 0x0385        ; ROM0:038B - Jump back if BC not zero (fill loop)
     ret                    ; ROM0:038D - Return when fill complete
 
-    ldi  a, (hl)        ; ROM0:038E - Memory copy routine - Load from HL to A, increment HL
-    ld   (de), a        ; ROM0:038F - Store A to address DE
-    inc  de             ; ROM0:0390 - Increment destination pointer DE
-    dec  bc             ; ROM0:0391 - Decrement byte counter BC
-    ld   a, b           ; ROM0:0392 - Load upper byte of counter
-    or   c              ; ROM0:0393 - OR with lower byte to check if BC is zero
-    jr   nz, 0x038E     ; ROM0:0394 - Jump back if more bytes to copy
-    ret                 ; ROM0:0396 - Return when copy complete
+.org 0x038E                ; ROM0:038E - memcpy(dest = DE, src = HL, count = BC)
+    ldi  a, (hl)           ; ROM0:038E - Load from HL to A, increment HL
+    ld   (de), a           ; ROM0:038F - Store A to address DE
+    inc  de                ; ROM0:0390 - Increment destination pointer DE
+    dec  bc                ; ROM0:0391 - Decrement byte counter BC
+    ld   a, b              ; ROM0:0392 - Load upper byte of counter
+    or   c                 ; ROM0:0393 - OR with lower byte to check if BC is zero
+    jr   nz, 0x038E        ; ROM0:0394 - Jump back if more bytes to copy
+    ret                    ; ROM0:0396 - Return when copy complete
+
     ldh  a, (0xD0)      ; ROM0:0397 - Load horizontal scroll value from HRAM (was 0xFFD0)
     ldh  (0x43), a      ; ROM0:0399 - Store to SCX (background X scroll register) (was 0xFF43)
     ldh  a, (0xD1)      ; ROM0:039B - Load vertical scroll value from HRAM (was 0xFFD1)
