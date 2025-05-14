@@ -58,13 +58,15 @@
     ldh  (0xFF), a         ; ROM0:03A6 - Store updated interrupt enable
     ret                    ; ROM0:03A8 - Return after interrupt mask update
 
-    ld   b, a           ; ROM0:03A9 - Save value in B
-    xor  a              ; ROM0:03AA - Clear A (set to 0)
-    ldh  (0x0F), a      ; ROM0:03AB - Clear interrupt flag register (was 0xFF0F)
-    ldh  a, (0xFF)      ; ROM0:03AD - Load interrupt enable register (was 0xFFFF)
-    or   b              ; ROM0:03AF - Set bits from saved value
-    ldh  (0xFF), a      ; ROM0:03B0 - Store updated interrupt enable (was 0xFFFF)
-    ret                 ; ROM0:03B2 - Return after interrupt enable update
+.org 0x03A9                ; ROM0:03A9 - Enable specific interrupts based on the mask in A
+    ld   b, a              ; ROM0:03A9 - Save value in B
+    xor  a                 ; ROM0:03AA - Clear A (set to 0)
+    ldh  (0x0F), a         ; ROM0:03AB - Clear interrupt flag register
+    ldh  a, (0xFF)         ; ROM0:03AD - Load interrupt enable register
+    or   b                 ; ROM0:03AF - Set bits from saved value
+    ldh  (0xFF), a         ; ROM0:03B0 - Store updated interrupt enable
+    ret                    ; ROM0:03B2 - Return after interrupt enable update
+
     ld   e, c           ; ROM0:03B3 - Load low byte into E
     ld   d, 0x00        ; ROM0:03B4 - Clear high byte D
     ld   c, 0x05        ; ROM0:03B6 - Set loop counter to 5
