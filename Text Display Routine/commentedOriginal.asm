@@ -419,7 +419,7 @@
     ret                 ; ROM0:1E46 - Return; Ends control code handling
 
 .org 0x1E33               ; display each character
-    ld   a,$F0            ; ROM0:1E33 -
+    ld   a,0xF0            ; ROM0:1E33 -
     push af               ; ROM0:1E35 - 
     ld   a, (0xCDCA)      ; ROM0:1E36 - 
     ldh  (0xC8), a        ; ROM0:1E39 - 
