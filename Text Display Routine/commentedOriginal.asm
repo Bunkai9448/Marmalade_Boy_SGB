@@ -418,6 +418,16 @@
     pop  de             ; ROM0:1E45 - Restore DE; Restores script pointer
     ret                 ; ROM0:1E46 - Return; Ends control code handling
 
+.org 0x1E33               ; display each character
+    ld   a,$F0            ; ROM0:1E33 -
+    push af               ; ROM0:1E35 - 
+    ld   a, (0xCDCA)      ; ROM0:1E36 - 
+    ldh  (0xC8), a        ; ROM0:1E39 - 
+    ld   (0x3FFF),a       ; ROM0:1E3B - 
+    pop  af               ; ROM0:1E3E - 
+    pop  de               ; ROM0:1E3F - 
+    ret                   ; ROM0:1E40 - 
+
 .org 0x1E85                ; ROM0:1E85
     ld   a,0x02          ; ROM0:1E85 3E 02 - Load 0x02 into register A
     ld   (0xCE24),a      ; ROM0:1E87 EA 24 CE - Store A (0x02) into memory address 0xCE24
