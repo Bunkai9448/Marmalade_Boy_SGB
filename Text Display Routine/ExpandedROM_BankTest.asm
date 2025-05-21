@@ -26,7 +26,7 @@
 
 ; Expanded ROM starts here
 .org 0x40000         ; 0x40000 is in Bank 15 = 0x10 (Banks from 0 to 15)
-.db 0xFD, 0x2B, 0x3D, 0x15, 0x11 ; FD=゛ 2B=ふ 3D=ん 15=か 11=い
+.db 0xFD, 0x2B, 0x3D, 0x15, 0x11, 0xF0 ; FD=゛ 2B=ふ 3D=ん 15=か 11=い F0=<END>
 
 ; I was told by Phonymike that, It has to be an even filesize 256KB or 512KB, nothing in between.
 ; Otherwise emulators will ignore your extra code. So, better safe than sorry.
