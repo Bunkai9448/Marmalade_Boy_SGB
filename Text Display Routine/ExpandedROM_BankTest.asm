@@ -17,15 +17,15 @@
     db 0x99, 0xC1     ; ROM0:014E - Global Checksum (unchanged)
 
 ; Original text load to modify with the Bank Swap Test next
-.org 0x1E33
-    ld   a, 0x10           ; ROM0:1E33 - Load bank 16 (0x40000 is in Bank 16)
-    ld   (0x2000), a       ; ROM0:1E35 - Switch to bank 16 for MBC1
-    ld   a, (0x4000)       ; ROM0:1E38 - Load first byte from 0x40000
-    ldh  (0xC8), a         ; ROM0:1E3B - Store to HRAM
-    ld   (0x3FFF), a       ; ROM0:1E3D - Write to 0x3FFF (restore bank or store data)
-    pop  af                ; ROM0:1E40 - Restore AF
-    pop  de                ; ROM0:1E41 - Restore DE
-    ret                    ; ROM0:1E42 - Return
+.org 0x1E33               ; display each character
+    ld   a,0xF0           ; ROM0:1E33 - Load 0xF0 into A
+    push af               ; ROM0:1E35 - Save AF to stack
+    ld   a,0x0F           ; ROM0:1E36 - Load bank number 0x10 into A
+    ldh  (0xC8), a        ; ROM0:1E38 - Store A to 0xFFC8
+    ld   (0x3FFF),a       ; ROM0:1E3A - Set ROM bank to 0x10
+    pop  af               ; ROM0:1E3C - Restore AF from stack
+    pop  de               ; ROM0:1E3D - Restore DE from stack
+    ret                   ; ROM0:1E3E - Return
 
 ; This swaps the first word in the game with <ぶんかい> for testing purposes
 .org 0x13EBB
