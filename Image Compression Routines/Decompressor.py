@@ -70,25 +70,24 @@ rom_path = 'Marmalade Boy.gb'
 
 # List of offsets from which compressed data is taken
 offsets = [
-    0x1C9FA,
-    0x1E7CC,
-    0x21B00, # (END) psychology test results
-    0x246C0,
-    0x2979B,
-    0x2EF8E,
-    0x307F1,
-    0x31A8F, 
-    0x31F11,
-    0x3232D, # Notebook's 1st page
-    0x32854, # Notebook's Item, How to use, Marmalade
-    0x332F6,
-    0x356E2, # 光希遊のへや玄関
-    0x36A1B, # E正面玄関
-    0x2401A, # Main (Start) Screen
-    0x25280, # 銀太のテニスマッチ遊の　メダイュの秘密恋の行方
+    0x1C9FA,  # Ginta at the phone
+    0x1E7CC,  # Miki at the phone
+    0x21B00,  # (END) psychology test results
+    0x2401A,  # Main (Start) Screen
+    0x246C0,  # Triangles from intro screen
+    0x25280,  # 銀太のテニスマッチ遊の　メダイュの秘密恋の行方
     0x256B4,
-    0x257BB, # Copyright screen
-    0x25DE8 # Password Robot
+    0x257BB,  # Copyright screen
+    0x25DE8,  # Password Robot
+    0x31500,  # sprites for cookies and piano minigames - 1
+    0x31700,  # sprites for cookies and piano minigames - 2
+    0x31F11,  # sprites for coin minigame
+    0x3232D,  # Notebook's 1st page
+    0x32854,  # Notebook's Item, How to use, Marmalade
+    0x332F6,  # Candy sprite
+    0x356E2,  # 光希遊のへや玄関
+    0x36A1B,  # E正面玄関
+    0x37BF0  # キャラメル　バンダイ　PUSH A BUTTON
 ]
 
 # Process each offset
