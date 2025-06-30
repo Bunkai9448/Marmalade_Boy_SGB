@@ -1,4 +1,6 @@
 import sys
+import os
+import glob
 from PIL import Image
 import numpy as np
 
@@ -75,10 +77,22 @@ def png_to_bin(input_file, output_file, width_tiles=16):
     print(f"Binary file saved as {output_file}")
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
-        print("Usage: python png_to_bin.py <input.png> <output.bin>")
+    # Create BIN directory if it doesn't exist
+    output_dir = "BIN"
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    # Find all .png files in the current directory
+    png_files = glob.glob("*.png")
+    
+    if not png_files:
+        print("No .png files found in the current directory")
         sys.exit(1)
 
-    input_file = sys.argv[1]
-    output_file = sys.argv[2]
-    png_to_bin(input_file, output_file)
+    # Process each .png file
+    for input_file in png_files:
+        # Generate output filename (replace .png with .bin)
+        output_filename = os.path.splitext(input_file)[0] + ".bin"
+        # Place output file in BIN directory
+        output_file = os.path.join(output_dir, output_filename)
+        png_to_bin(input_file, output_file)
