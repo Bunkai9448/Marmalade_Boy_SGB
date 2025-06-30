@@ -70,6 +70,7 @@ rom_path = 'Marmalade Boy.gb'
 
 # List of offsets from which compressed data is taken
 offsets = [
+    0x17B00,  # Meiko animation
     0x1C9FA,  # Ginta at the phone
     0x1E7CC,  # Miki at the phone
     0x21B00,  # (END) psychology test results
