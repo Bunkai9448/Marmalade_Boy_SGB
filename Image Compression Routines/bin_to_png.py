@@ -1,5 +1,7 @@
 import sys
+import os
 from PIL import Image
+import glob
 
 def bin_to_png(input_file, output_file, width_tiles=16):
     # Game Boy color palette (4 shades of gray)
@@ -55,10 +57,22 @@ def bin_to_png(input_file, output_file, width_tiles=16):
     print(f"Image saved as {output_file}")
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
-        print("Usage: python bin_to_png.py <input.bin> <output.png>")
+    # Create PNGs directory if it doesn't exist
+    output_dir = "PNGs"
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    # Find all .bin files in the current directory
+    bin_files = glob.glob("*.bin")
+    
+    if not bin_files:
+        print("No .bin files found in the current directory")
         sys.exit(1)
 
-    input_file = sys.argv[1]
-    output_file = sys.argv[2]
-    bin_to_png(input_file, output_file)
+    # Process each .bin file
+    for input_file in bin_files:
+        # Generate output filename (replace .bin with .png)
+        output_filename = os.path.splitext(input_file)[0] + ".png"
+        # Place output file in PNGs directory
+        output_file = os.path.join(output_dir, output_filename)
+        bin_to_png(input_file, output_file)
