@@ -72,7 +72,7 @@ rom_path = 'Marmalade Boy.gb'
 offsets = [
     0x1803E,  # Meiko animation
     0x1880E,  # Yuu animation
-    0x195C8,  # Arimi animation - wrong offset
+    0x18F63,  # Arimi animation
     0x196DA,  # Ginta animation
     0x1C9FA,  # Ginta at the phone
     0x1E7CC,  # Miki at the phone
