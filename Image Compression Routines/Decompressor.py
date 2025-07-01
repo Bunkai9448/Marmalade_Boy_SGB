@@ -77,7 +77,6 @@ offsets = [
     0x2401A,  # Main (Start) Screen
     0x246C0,  # Triangles from intro screen
     0x25280,  # 銀太のテニスマッチ遊の　メダイュの秘密恋の行方
-    0x256B4,
     0x257BB,  # Copyright screen
     0x25DE8,  # Password Robot
     0x31500,  # sprites for cookies and piano minigames - 1
