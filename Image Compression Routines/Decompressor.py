@@ -76,6 +76,7 @@ offsets = [
     0x196E8,  # Ginta animation - wrong offset
     0x1C9FA,  # Ginta at the phone
     0x1E7CC,  # Miki at the phone
+    0x20da1,  # One Point Advice
     0x21B00,  # (END) psychology test results - 1
     0x221AF,  # (END) psychology test results - 2
     0x22672,  # (END) psychology test results - 3
