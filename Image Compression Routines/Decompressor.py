@@ -71,7 +71,7 @@ rom_path = 'Marmalade Boy.gb'
 # List of offsets from which compressed data is taken
 offsets = [
     0x1803E,  # Meiko animation
-    0x189C8,  # Yuu animation - wrong offset
+    0x1880E,  # Yuu animation
     0x195C8,  # Arimi animation - wrong offset
     0x196E8,  # Ginta animation - wrong offset
     0x1C9FA,  # Ginta at the phone
