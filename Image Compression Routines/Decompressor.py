@@ -79,6 +79,7 @@ offsets = [
     0x21B00,  # (END) psychology test results - 1
     0x221AF,  # (END) psychology test results - 2
     0x22672,  # (END) psychology test results - 3
+    0x229CD,  # (END) psychology test results - 4
     0x2401A,  # Main (Start) Screen
     0x246C0,  # Triangles from intro screen
     0x25280,  # 銀太のテニスマッチ遊の　メダイュの秘密恋の行方
