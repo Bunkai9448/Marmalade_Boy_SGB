@@ -76,8 +76,8 @@ offsets = [
     0x196E8,  # Ginta animation - wrong offset
     0x1C9FA,  # Ginta at the phone
     0x1E7CC,  # Miki at the phone
-    0x21B00,  # (END) psychology test results
-    0x222F4,  # (END) psychology test results - 2  - wrong offset
+    0x21B00,  # (END) psychology test results - 1
+    0x221AF,  # (END) psychology test results - 2
     0x2401A,  # Main (Start) Screen
     0x246C0,  # Triangles from intro screen
     0x25280,  # 銀太のテニスマッチ遊の　メダイュの秘密恋の行方
