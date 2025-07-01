@@ -82,6 +82,7 @@ offsets = [
     0x25280,  # 銀太のテニスマッチ遊の　メダイュの秘密恋の行方
     0x257BB,  # Copyright screen
     0x25DE8,  # Password Robot
+    0x27FE8,  # Highschool outside - review offset
     0x31500,  # sprites for cookies and piano minigames - 1
     0x31700,  # sprites for cookies and piano minigames - 2
     0x31F11,  # sprites for coin minigame
