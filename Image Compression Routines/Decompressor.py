@@ -73,7 +73,7 @@ offsets = [
     0x1803E,  # Meiko animation
     0x1880E,  # Yuu animation
     0x195C8,  # Arimi animation - wrong offset
-    0x196E8,  # Ginta animation - wrong offset
+    0x196DA,  # Ginta animation
     0x1C9FA,  # Ginta at the phone
     0x1E7CC,  # Miki at the phone
     0x20da1,  # One Point Advice
