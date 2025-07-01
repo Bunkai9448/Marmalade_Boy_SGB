@@ -509,6 +509,44 @@
     and  a              ; ROM0:2F8B - Check A register - Test for input; Tests if input was detected
     jr   z, 0x2F75      ; ROM0:2F8C - If zero, update display - Refresh if no input; Updates screen if no input
 
+.org 0x3201                ; Default text formatting handler - Max or overflow case
+    call 0x3264         ; ROM0:3201 - Call text setup routine; Initializes text rendering
+    ld   c, 0xB7        ; ROM0:3204 - Set register c to 0xB7; Sets text control register
+    ld   a, 0x02        ; ROM0:3206 - Load value 0x02; Prepares text formatting flag
+    ld   (0xFF00+c), a  ; ROM0:3208 - Write to text control; Sets formatting parameter
+    inc  c              ; ROM0:3209 - Increment control register; Moves to next control
+    ld   a, 0x02        ; ROM0:320A - Load value 0x02; Prepares second formatting flag
+    ld   (0xFF00+c), a  ; ROM0:320C - Write to text control; Sets second parameter
+    call 0x143E         ; ROM0:320D - Call rendering routine; Renders text to screen
+    jp   0x2F75         ; ROM0:3210 - Jump to final handler; Completes text processing
+    ld   bc, 0x1006     ; ROM0:3213 - Set BC to 0x1006; Sets text block size
+    ld   de, 0x9942     ; ROM0:3216 - Set DE to 0x9942; Sets text destination address
+    ld   a, 0xFF        ; ROM0:3219 - Load 0xFF; Prepares text fill value
+    call 0x04CB         ; ROM0:321B - Call text fill routine; Fills text area
+    call 0x043C         ; ROM0:321E - Call cleanup routine; Finalizes text setup
+    ret                 ; ROM0:3221 - Return; Exits routine
+    push de             ; ROM0:3222 - Save DE register; Preserves text address
+    ld   c, 0x0A        ; ROM0:3223 - Set C to 0x0A; Sets line counter
+    rst  0x30           ; ROM0:3225 - Call text interrupt; Processes text line
+    push bc             ; ROM0:3226 - Save BC register; Preserves block size
+    ld   a, b           ; ROM0:3227 - Load B to A; Checks block status
+    and  a              ; ROM0:3228 - Test A; Verifies block status
+    jr   z, 0x3230      ; ROM0:3229 - Zero flag set - Single block case; Handles single block
+    call 0x3245         ; ROM0:322B - Call multi-block handler; Processes multiple blocks
+    jr   0x3233         ; ROM0:322E - Jump to block end; Skips single block case
+    call 0x323C         ; ROM0:3230 - Call single-block handler; Processes single block
+    pop  bc             ; ROM0:3233 - Restore BC; Recovers block size
+    pop  de             ; ROM0:3234 - Restore DE; Recovers text address
+    inc  de             ; ROM0:3235 - Increment DE; Moves to next text address
+    inc  de             ; ROM0:3236 - Increment DE; Advances text pointer
+    ld   a, c           ; ROM0:3237 - Load C to A; Gets line counter
+    call 0x3245         ; ROM0:3238 - Call line handler; Processes current line
+    ret                 ; ROM0:323B - Return; Exits line processing
+    ld   bc, 0x0202     ; ROM0:323C - Set BC to 0x0202; Sets small block size
+    ld   a, 0xFF        ; ROM0:323F - Load 0xFF; Prepares fill value
+    call 0x04CB         ; ROM0:3241 - Call fill routine; Fills small text area
+    ret                 ; ROM0:3244 - Return; Exits small block handler
+
 .org 0x33900               ; Font Tiles, 8x8 1bpp Japanese Charset 
 ; AND each byte with 0xF0 to blank out the right half of the tile for an 8×4 test
 db 0x00, 0x38, 0x44, 0x44, 0x44, 0x44, 0x44, 0x38  ; "0"
