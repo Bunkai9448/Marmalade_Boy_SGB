@@ -74,6 +74,7 @@ offsets = [
     0x1880E,  # Yuu animation
     0x18F63,  # Arimi animation
     0x196DA,  # Ginta animation
+    0x1A0C1,  # Rokutanda animation
     0x1A4E3,  # Miwa animation
     0x1AFCE,  # 銀太との遊相性格　性診断のテスト
     0x1C9FA,  # Ginta at the phone
