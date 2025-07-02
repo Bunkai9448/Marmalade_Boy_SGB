@@ -75,6 +75,7 @@ offsets = [
     0x18F63,  # Arimi animation
     0x196DA,  # Ginta animation
     0x1A4E3,  # Miwa animation
+    0x1AFCE,  # 銀太との遊相性格　性診断のテスト
     0x1C9FA,  # Ginta at the phone
     0x1E7CC,  # Miki at the phone
     0x20DA1,  # One Point Advice
