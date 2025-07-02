@@ -76,7 +76,7 @@ offsets = [
     0x196DA,  # Ginta animation
     0x1C9FA,  # Ginta at the phone
     0x1E7CC,  # Miki at the phone
-    0x20da1,  # One Point Advice
+    0x20DA1,  # One Point Advice
     0x21B00,  # (END) psychology test results - 1
     0x221AF,  # (END) psychology test results - 2
     0x22672,  # (END) psychology test results - 3
@@ -87,7 +87,7 @@ offsets = [
     0x257BB,  # Copyright screen
     0x25DE8,  # Password Robot
     0x27FE8,  # Highschool outside - review offset
-    0x2979B, # Tennis court
+    0x2979B,  # Tennis court
     0x2F1E8,  # Miki face 
     0x31500,  # sprites for cookies and piano minigames - 1
     0x31700,  # sprites for cookies and piano minigames - 2
@@ -97,7 +97,7 @@ offsets = [
     0x332F6,  # Candy sprite
     0x356E2,  # 光希遊のへや玄関
     0x36A1B,  # E正面玄関
-    0x37BF0  # キャラメル　バンダイ　PUSH A BUTTON
+    0x37BF0   # キャラメル　バンダイ　PUSH A BUTTON
 ]
 
 # Process each offset
