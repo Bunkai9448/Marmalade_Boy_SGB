@@ -79,6 +79,7 @@ offsets = [
     0x1AFCE,  # 銀太との遊相性格　性診断のテスト
     0x1BC08,  # Keyword 1/9 for SFC game
     0x1BCEA,  # Keyword 2/9 for SFC game
+    0x1BDBB,  # Keyword 3/9 for SFC game
     0x1C9FA,  # Ginta at the phone
     0x1E7CC,  # Miki at the phone
     0x20DA1,  # One Point Advice
