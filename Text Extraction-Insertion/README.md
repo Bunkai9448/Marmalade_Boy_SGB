@@ -71,3 +71,7 @@ Open the terminal and run : `Atlas "Marmalade Boy (Japan).sgb" Marmalade_script.
 - *Since Atlas and Cartographer are Windows only, I also used the (full) data to make a few python scripts 
 (with AI help), so I can make the insertion/extraction in my unix systems too. But those scripts are private 
 for the time being.*
+
+## Extra:
+In case you need help to find the endings, or to find the Keywords for the SFC game. Here is a password to the psychology test results (END OF THE GAME).
+`2せろ ワワカコ てつと つつ・へ`
