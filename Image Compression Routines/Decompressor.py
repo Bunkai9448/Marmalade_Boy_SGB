@@ -88,6 +88,7 @@ offsets = [
     0x25DE8,  # Password Robot
     0x27FE8,  # Highschool outside - review offset
     0x2979B, # Tennis court
+    0x2F1E8,  # Miki face 
     0x31500,  # sprites for cookies and piano minigames - 1
     0x31700,  # sprites for cookies and piano minigames - 2
     0x31F11,  # sprites for coin minigame
