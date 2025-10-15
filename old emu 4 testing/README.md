@@ -5,7 +5,7 @@
 To playtest, I normally use mgba or mesen-s (in addition with real hardware).
 However, my oldest laptopt doesn't have enough resources for those. This emulator fills that particular gap.
 
-The [build](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/old%20emu%204%20testing/sdl2gnuboy_emu) from this repo is for debian bookworm in an old laptopt, with 1GB RAM and 32bits arquitecture.
+The [build](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/old%20emu%204%20testing/sdl2gnuboy_emu) from this repo is for debian bookworm in an old laptop, with 1GB RAM and 32bits arquitecture.
 
 I've also added a [simple shell script](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/old%20emu%204%20testing/sdl2gnuboy_play.sh) to run the executable and display the controls in the same terminal
 for quick use.
