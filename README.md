@@ -1,6 +1,6 @@
 # Marmalade Boy SGB Fantranslation
 
-This repository contains files and info to reverse engineering and modify the Marmalade Boy game for SuperGameBoy, with the main goal of creating a fantranslation for it.
+This repository contains files and info to reverse engineer and modify the Marmalade Boy game for SuperGameBoy, with the main goal of creating a fantranslation for it.
 
 ## ROM Data
 You must provide your own game files. Do not ask here for them.
