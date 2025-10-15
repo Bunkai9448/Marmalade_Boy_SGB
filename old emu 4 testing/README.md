@@ -10,6 +10,8 @@ The [build](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/old%20emu%
 I've also added a [simple shell script](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/old%20emu%204%20testing/sdl2gnuboy_play.sh) to run the executable and display the controls in the same terminal
 for quick use.
 
+![In-use screenshot](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/old%20emu%204%20testing/emu%20in%20old%20laptop.jpg)
+
 Below is the original README from the source, https://github.com/AlexOberhofer/SDL2-GNUBoy/
 
 
