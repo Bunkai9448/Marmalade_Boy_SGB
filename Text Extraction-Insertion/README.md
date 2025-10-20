@@ -73,5 +73,12 @@ Open the terminal and run : `Atlas "Marmalade Boy (Japan).sgb" Marmalade_script.
 for the time being.*
 
 ## Extra:
-In case you need help to find the endings, or to find the Keywords for the SFC game. Here is a password to the psychology test results (END OF THE GAME).  
+In case you need help to find the endings, or to find the Keywords for the SFC game. Here are the passwords for two different (and not related) endings:
+
+Story + Psychology results:
+`ふキき ミワなに なワキ なツ38`
+
+Only Psychology results: 
 `2せろ ワワカコ てつと つつ・へ`
+
+
