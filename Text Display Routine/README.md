@@ -10,7 +10,7 @@
 - Feel free to push improvements to the code comments.
   
 - Once the original routine [commentedOriginal.asm](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/Text%20Display%20Routine/commentedOriginal.asm) is well enough understood, I plan on making (a copy with) changes so it displays an 8x4 1bpp Font for a fan translation. 
-- The code, in both original and [test.asm](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/Text%20Display%20Routine/test.asm), is written for [Armips fork with z80 for gameboy](https://github.com/Prof9/armips/tree/gameboy/Tests/Z80) which you have a built executable here [armips_at_gameboy.exe](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/Text%20Display%20Routine/armips_at_gameboy.exe).
+- The code, in both original and [test.asm](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/Text%20Display%20Routine/test.asm), is written for [Armips fork with z80 for gameboy](https://github.com/Prof9/armips/tree/gameboy/Tests/Z80) which you have built executables here: [armips_at_gameboy.exe](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/Text%20Display%20Routine/armips_at_gameboy.exe), [armips_at_gameboy-unix](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/Text%20Display%20Routine/armips_at_gameboy-unix)
 
 **WARNING!**
 Most commments in the ASM where done by AI (the vague ones with only CPU Instruction explanations), 
