@@ -76,20 +76,21 @@ for the time being.*
 To find the Keywords for the SFC game, better debugging, and more knowledge about the game. 
 Here are some in-game passwords:
 
-End of 2nd chapter Ginta:
-`て3け　ミワなに　・・そ　・イツイ`
-End of 2nd chapter Yuu:
-`つ3こ　ミワなに　・・そ　・イコイ`
+End of 2nd chapter Ginta:  
+`て3け　ミワなに　・・そ　・イツイ`  
+End of 2nd chapter Yuu:  
+`つ3こ　ミワなに　・・そ　・イコイ`  
 
-Story's End + Psychology results:
-`ふキき　ミワなに　なワキ　なツ38`
-Same ending, but only psycology results:
-`はとき　ミワなに　ミとキ　なつ38`
+Story's End + Psychology results:  
+`ふキき　ミワなに　なワキ　なツ38`  
+Same ending, but only psycology results:  
+`はとき　ミワなに　ミとキ　なつ38`  
 
-Only Psychology results: 
-`2せろ　ワワカコ　てつと　つつ・へ`
+Only Psychology results:  
+`2せろ　ワワカコ　てつと　つつ・へ`  
 
-Staff credits (hidden pass) from https://kakusi.jp/?p=52797: 
+Staff credits (hidden pass) from https://kakusi.jp/?p=52797:  
 `キミワ　カシコイ　・・・　・・・・`
+
 
 
