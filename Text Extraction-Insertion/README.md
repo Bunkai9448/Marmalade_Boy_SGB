@@ -81,6 +81,11 @@ End of 2nd chapter Ginta:
 End of 2nd chapter Yuu:  
 `つ3こ　ミワなに　・・そ　・イコイ`  
 
+End of 3rd chapter spades remove success:  
+`すに６　ワワカコ　ツちち　ちそツ６`  
+End of 3rd chapter spades remove failure:  
+`しせ６　ワワカコ　ワつて　てツ・へ`  
+
 Story's End + Psychology results:  
 `ふキき　ミワなに　なワキ　なツ38`  
 Same ending, but only psycology results:  
@@ -91,6 +96,7 @@ Only Psychology results:
 
 Staff credits (hidden pass) from https://kakusi.jp/?p=52797:  
 `キミワ　カシコイ　・・・　・・・・`
+
 
 
 
