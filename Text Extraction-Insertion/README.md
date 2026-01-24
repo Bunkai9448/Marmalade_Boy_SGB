@@ -73,12 +73,23 @@ Open the terminal and run : `Atlas "Marmalade Boy (Japan).sgb" Marmalade_script.
 for the time being.*
 
 ## Extra:
-In case you need help to find the endings, or to find the Keywords for the SFC game. Here are the passwords for two different (and not related) endings:
+To find the Keywords for the SFC game, better debugging, and more knowledge about the game. 
+Here are some in-game passwords:
 
-Story + Psychology results:
-`ふキき ミワなに なワキ なツ38`
+End of 2nd chapter Ginta:
+`て3け　ミワなに　・・そ　・イツイ`
+End of 2nd chapter Yuu:
+`つ3こ　ミワなに　・・そ　・イコイ`
+
+Story's End + Psychology results:
+`ふキき　ミワなに　なワキ　なツ38`
+Same ending, but only psycology results:
+`はとき　ミワなに　ミとキ　なつ38`
 
 Only Psychology results: 
-`2せろ ワワカコ てつと つつ・へ`
+`2せろ　ワワカコ　てつと　つつ・へ`
+
+Staff credits (hidden pass) from https://kakusi.jp/?p=52797: 
+`キミワ　カシコイ　・・・　・・・・`
 
 
