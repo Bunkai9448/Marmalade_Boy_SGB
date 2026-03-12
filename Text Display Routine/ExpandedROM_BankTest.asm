@@ -28,7 +28,7 @@
     sla  c                 ; ×4
     rl   b
     sla  c                 ; ×8 → final ×16 (16 bytes per tile)
-;    rl   b
+    rl   b
     add  hl, bc            ; HL = VRAM address for tile
 
     ; --- Select ROM bank 0x0C for tile data ---
@@ -54,8 +54,8 @@
 .org 0x40000
 
     ; --- Calculate VRAM tile address for tile number in A ---
-    ld   hl, 0x7900        ; Base VRAM address for tiles
-; This does affect    ld   hl, 0x8000        ; Base VRAM address for tile 0
+;    ld   hl, 0x7900        ; Base VRAM address for tiles
+    ld   hl, 0x8780        ; Base VRAM address for tile 0
     ld   c, a
     ld   b, 0x00
     sla  c
@@ -80,8 +80,6 @@ vram_loop:
     ld   (0x3FFF), a
 
     ret                     ; Return to original game flow
-
-
 
 
 ; I was told by Phonymike that, It has to be an even filesize 256KB or 512KB, nothing in between.
