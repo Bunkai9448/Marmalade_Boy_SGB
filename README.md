@@ -15,6 +15,7 @@ You must provide your own game files. Do not ask here for them.
 - Script Translation > Done
 - Script Insert > [Worked out](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Text%20Extraction-Insertion)
 - Image compression and tools for it > [Worked out](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Image%20Compression%20Routines)
+- ROM expansion, to have more space for code and other stuff > [There is a sample in the text Display Routine Folder](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/Text%20Display%20Routine/ExpandedROM_BankTest.asm)
 - VWF, **currently working on this** [here](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Text%20Display%20Routine)
 
 *Notice: Even if many of the steps have "worked out" labels, they still need polish and bug fixing.*  
