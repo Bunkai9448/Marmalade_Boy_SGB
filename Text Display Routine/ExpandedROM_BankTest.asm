@@ -66,8 +66,8 @@
     rl   b
     add  hl, bc            ; HL = VRAM address for tile
 
-    ; --- Fill 8 bytes of VRAM with 0xFF (black tile) ---
-    ld   b, 0x08           ; 8 bytes per tile
+    ; --- Fill VRAM tile data with 0xFF ---
+    ld   b, 0x08           ; 8 bytes per tile (half black bar) , use 0x10 to do the whole tile
 vram_loop:
     ld   (hl), 0xFF
     inc  hl
