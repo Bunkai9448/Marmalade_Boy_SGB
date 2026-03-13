@@ -18,7 +18,7 @@
     db   0x99, 0xC1        ; ROM0:014E - Global Checksum
 
 
-; Original Tile Data to VRAM + hook triggeren banco 0x10
+; Original Tile Data to VRAM + hook trigger in bank 0x10
 .org 0x146F
     ld   hl, 0x7900        ; Base VRAM address for tiles
     ld   c, a              ; A contains tile number - low byte
@@ -67,11 +67,11 @@
     add  hl, bc            ; HL = VRAM address for tile
 
     ; --- Fill VRAM tile data with 0xFF ---
-    ld   b, 0x08           ; 8 bytes per tile (half black bar) , use 0x10 to do the whole tile
+    ld   b, 0x08           ;  byte counter ; 8 bytes per tile (half black bar) , use 0x10 to do the whole tile
 vram_loop:
-    ld   (hl), 0xFF
-    inc  hl
-    dec  b
+    ld   (hl), 0xFF        ; write pattern, 0xF0 is half left, 0xFF is full etc
+    inc  hl                ; move to next byte in tile data
+    dec  b                 ; decrement byte counter
     jr   nz, vram_loop
 
     ; --- Optional: restore ROM0 bank if needed ---
