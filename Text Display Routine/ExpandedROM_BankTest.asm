@@ -54,17 +54,17 @@
 .org 0x40000
 
     ; --- Calculate VRAM tile address for tile number in A ---
-;    ld   hl, 0x7900        ; Base VRAM address for tiles
+;    ld   hl, 0x7900        ; Base VRAM address for tile 0  ; HL = tile_address(tile_index)
     ld   hl, 0x8780        ; Base VRAM address for tile 0
-    ld   c, a
-    ld   b, 0x00
+    ld   c, a              ; c = tile index
+    ld   b, 0x00           ; bc will hold the byte offset
     sla  c
     rl   b
     sla  c
     rl   b
     sla  c
     rl   b
-    add  hl, bc            ; HL = VRAM address for tile
+    add  hl, bc            ; HL = VRAM address for tile ; HL = base + (tile_index * 16)
 
     ; --- Fill VRAM tile data with 0xFF ---
     ld   b, 0x08           ;  byte counter ; 8 bytes per tile (half black bar) , use 0x10 to do the whole tile
