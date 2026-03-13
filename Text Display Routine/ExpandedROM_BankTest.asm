@@ -9,7 +9,7 @@
     db   0x42, 0x32        ; ROM0:0144 - New Licensee Code: "B2" in ASCII (Used only if byte at 0x014B is 0x33)
     db   0x03              ; ROM0:0146 - SGB Flag: 0x03 = supports Super Game Boy functions
     db   0x01              ; ROM0:0147 - Cartridge Type: 0x01 = MBC1 (no RAM, no battery)
-    db   0x03              ; ROM0:0148 - ROM Size: 0x03 = 256KB (16 banks of 16KB each)
+    db   0x04              ; ROM0:0148 - ROM Size: 0x04 = 512KB (32 banks of 16KB each)
     db   0x00              ; ROM0:0149 - RAM Size: 0x00 = No RAM on cartridge
     db   0x00              ; ROM0:014A - Destination Code: 0x00 = Japanese
     db   0x33              ; ROM0:014B - Old Licensee Code: 0x33 = Use new licensee code at 0x0144
@@ -87,5 +87,6 @@ vram_loop:
 ; This is to fill the remaining ROM space with 0s and reach the appropiate size.
 .org 0x7FFFF
 .db 0x00
+
 
 .close
