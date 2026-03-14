@@ -81,6 +81,7 @@ vram_loop:
 
     ret                     ; Return to original game flow
 
+.org 0x33900               ; Original address with Font Tiles, 8x8 1bpp Japanese Charset
 
 ; I was told by Phonymike that, It has to be an even filesize 256KB or 512KB, nothing in between.
 ; Otherwise emulators will ignore your extra code. So, better safe than sorry.
