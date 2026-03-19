@@ -14,7 +14,7 @@
     db   0x00              ; ROM0:014A - Destination Code: 0x00 = Japanese
     db   0x33              ; ROM0:014B - Old Licensee Code: 0x33 = Use new licensee code at 0x0144
     db   0x00              ; ROM0:014C - Mask ROM Version
-    db   0xF1              ; ROM0:014D - Header Checksum
+    db   0xF0              ; ROM0:014D - Header Checksum
     db   0x99, 0xC1        ; ROM0:014E - Global Checksum
 
 ; Original Pointer Table at
