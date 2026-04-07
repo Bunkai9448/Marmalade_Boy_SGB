@@ -27,6 +27,15 @@ db 0xC6D0
 ; Original Text Bytes
 db 0xF4, 0x2D
 
+; Original Dictionary Pointer Table at
+.org 0x13CD0
+; Original First Pointer
+db 0x13D70
+
+; Original Address with the First Dict Word used in the game, pointer at org 0x13D2A
+.org 0x13EBB
+; Original Text Bytes
+db 0x10, 0x24
 
     ; --- Switch to bank 0x10 and jump to hook ---
 ;    ld   a, 0x10           ; Bank 0x10
