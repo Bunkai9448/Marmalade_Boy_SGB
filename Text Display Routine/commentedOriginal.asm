@@ -24,7 +24,7 @@
     ldh  (0x49), a         ; ROM0:0159 - Store A at 0xFF49 (OBP1)
     di                     ; ROM0:015B - Disable interrupts
 
-.org 0x0385                ; ROM0:0385 - memset(dest = HL, value = 0xFF, count = BC) ; fills VRAM to be used with 0xFF
+.org 0x0385                ; ROM0:0385 - memset(dest = HL, value = 0xFF, count = BC) ; fills memory with 0xFF
     ld   a, 0xFF           ; ROM0:0385 - Load 0xFF (all bits set) into register A
     ldi  (hl), a           ; ROM0:0387 - Load A into address HL and increment HL
     dec  bc                ; ROM0:0388 - Decrement 16-bit counter BC
@@ -92,27 +92,31 @@
     pop  af                ; ROM0:146D - Restore A and flags
     ret                    ; ROM0:146E - Returns to 0x2F8B - Ends bank switch and script init
 
-.org 0x146F                ; Tile Data to VRAM
-    ld   hl, 0x7900        ; ROM0:146F - Sets VRAM address for tile data (0x7900-0x7FFF range)
-    ld   c, a              ; ROM0:1472 - A contains tile number - Set low byte; Sets tile index from accumulator
-    ld   b, 0x00           ; ROM0:1473 - Clear high byte - BC = tile number; Ensures BC is a 16-bit tile number with high byte zero
-    sla  c                 ; ROM0:1475 - Multiply by 8 - Shift left; Begins multiplying tile number by 16 (tile size)
-    rl   b                 ; ROM0:1477 - (tile data is 8 bytes per tile) - Rotate carry; Handles carry for 16-bit shift
-    sla  c                 ; ROM0:1479 - Shift Left Arithmetic effectively multiplies c by 2; Continues multiplication (now ×4)
-    rl   b                 ; ROM0:147B - Rotate Left through Carry on register b.; Handles carry
-    sla  c                 ; ROM0:147D - Multiplies by 8; Final shift to ×16 (16 bytes per tile in VRAM)
-    rl   b                 ; ROM0:147F - Handles overflow; Completes 16-bit shift
-    add  hl, bc            ; ROM0:1481 - Calculate tile address - Add offset to base; Computes final VRAM address for tile
-    ld   a, 0x0C           ; ROM0:1483 - Possibly bank number - Set ROM bank; Selects bank 0x0C for tile data
-    ldh  (0xC8), a         ; ROM0:1485 - Store to HRAM - Updates HRAM with new bank number
-    ld   (0x3FFF), a       ; ROM0:1487 - Store to banking register - Switches ROM to bank 0x0C
-    ld   bc, 0x0008        ; ROM0:148A - 8 bytes to copy - Tile data size; Sets copy size (8 bytes, half a tile for 4x8?)
-    ld   de, 0xCDBD        ; ROM0:148D - Source in WRAM - Points to tile data buffer in WRAM
-    call 0x038E            ; ROM0:1490 - Memory copy routine - Copies tile data to VRAM
-    ld   a, (0xCDCA)       ; ROM0:1493 - Load previous value - Retrieves previous bank number
-    ldh  (0xC8), a         ; ROM0:1496 - Restore bank - Restores HRAM bank value
-    ld   (0x3FFF), a       ; ROM0:1498 - Restore banking register - Update hardware
-    ret                    ; ROM0:149B - Ends tile loading routine
+.org 0x146F                ; ROM0:146F - Load 1bpp glyph (8 bytes) from bank 0x0C into WRAM buffer $CDBD
+    ld   hl, 0x7900        ; ROM0:146F - Base of font data in bank 0x0C
+    ld   c, a              ; ROM0:1472 - A = character / tile index
+    ld   b, 0x00           ; ROM0:1473 - BC = tile index
+    ; Multiply by 8 (three SLA) because font is 1bpp (8 bytes per glyph)
+    sla  c                 ; ROM0:1475 - ×2
+    rl   b                 ; ROM0:1477
+    sla  c                 ; ROM0:1479 - ×4
+    rl   b                 ; ROM0:147B
+    sla  c                 ; ROM0:147D - ×8
+    rl   b                 ; ROM0:147F
+    add  hl, bc            ; ROM0:1481 - HL = $7900 + (char × 8)
+
+    ld   a, 0x0C           ; ROM0:1483 - Switch to font bank
+    ldh  (0xC8), a         ; ROM0:1485
+    ld   (0x3FFF), a       ; ROM0:1487
+
+    ld   bc, 0x0008        ; ROM0:148A - Copy exactly 8 bytes (1bpp glyph)
+    ld   de, 0xCDBD        ; ROM0:148D - Destination WRAM buffer
+    call 0x038E            ; ROM0:1490 - memcpy(dest=DE, src=HL, count=BC)
+
+    ld   a, (0xCDCA)       ; ROM0:1493 - Restore previous bank
+    ldh  (0xC8), a         ; ROM0:1496
+    ld   (0x3FFF), a       ; ROM0:1498
+    ret                    ; ROM0:149B
 
 .org 0x149B                ; ROM0:149B - backup_flag(src = (HRAM: 0xBC), dest = (WRAM: 0xCDC7))
     ldh  a, (0xBC)         ; ROM0:149B - Load from HRAM - Reads a game state or flag from HRAM
@@ -214,7 +218,7 @@
     xor  a              ; ROM0:1560 - Clear A; Sets return value to 0
     ret                 ; ROM0:1561 - Return from subroutine; Ends text processing
 
-.org 0x171C                ; ROM0:171C - check_and_clamp_y_position(y_position = h, boundary_flag = (HRAM: 0xCDD9)) ; Screen boundary check?
+.org 0x171C                ; ROM0:171C - check_and_clamp_y_position(y_position = h, boundary_flag = (WRAM: 0xCDD9))
     ld   a, (0xCDD9)       ; ROM0:171C - Load value from memory at 0xCDD9 into a; Loads screen boundary flag
     and  a                 ; ROM0:171F - Test if a is zero; Checks if boundary checking is enabled
     jr   z, 0x1729         ; ROM0:1720 - Jump to 0x1729 if a is zero; Skips check if disabled
@@ -224,49 +228,51 @@
     ld   h, 0x9C           ; ROM0:1726 - Set h to 0x9C (clamp to boundary); Clamps Y to top of tilemap
     ret                    ; ROM0:1728 - Return; Ends boundary check
 
-.org 0x1790
+.org 0x1790                ; ROM0:1790 - Cursor advance by one full tile (+8 pixels). Change this for half-width fonts.
     inc  hl             ; ROM0:1790 - Increment HL to next tile; Advances cursor to next tile
     ld   a, l           ; ROM0:1791 - Load L into A; Gets X position
     and  a, 0x1F        ; ROM0:1792 - Mask for 32 tiles per row (0x1F = 31); Checks if at row end (32 tiles)
-    ret  nz             ; ROM0:1794 - Return if not at edge (less than 20); Returns if not at edge
+    ret  nz             ; ROM0:1794 - Return if not at edge; Returns if not at edge
     ld   a, l           ; ROM0:1795 - Load L into A; Reloads X
-    sub  a, 0x20        ; ROM0:1796 - Subtract 20 to reset column; Moves X back to start of row
+    sub  a, 0x20        ; ROM0:1796 - Subtract 0x20 to reset column; Moves X back to start of row
     ld   l, a           ; ROM0:1798 - Update L; Updates X position
     ld   a, h           ; ROM0:1799 - Load H into A; Gets Y position
     sbc  a, 0x00        ; ROM0:179A - Adjust H with carry (if any); Adjusts Y with borrow
     ld   h, a           ; ROM0:179C - Update H; Updates Y position
     ret                 ; ROM0:179D - Return; Ends position adjustment
 
-.org 0x17D0                ; subroutine convert character to tile
+.org 0x17D0                ; ROM0:17D0 - Convert 1bpp character → 2bpp VRAM tile
     push de                ; ROM0:17D0 - Save the value of DE register pair to stack
     ld   a,(de)            ; ROM0:17D1 - Load the value at the memory location pointed to by DE into register A
-    call 0x146F            ; ROM0:17D2 - Call function at address 0x146F
-    ld   de,0xCDBD         ; ROM0:17D5 - Load the address 0xCDBD into DE register pair
-    ld   hl,0x8000         ; ROM0:17D8 - Load the address 0x8000 into HL register pair
+    call 0x146F            ; ROM0:17D2 - Call function at address 0x146F (loads 8-byte 1bpp glyph into $CDBD)
+    ld   de,0xCDBD         ; ROM0:17D5 - Load the address 0xCDBD into DE register pair (source = 1bpp buffer)
+    ld   hl,0x8000         ; ROM0:17D8 - Load the address 0x8000 into HL register pair (default VRAM base for tiles $00-$7F)
     ld   a,(0xCDCD)        ; ROM0:17DB - Load the value at address 0xCDCD into register A
     ld   b,a               ; ROM0:17DE - Copy value from register A into register B
     ld   a,(0xCDE1)        ; ROM0:17DF - Load the value at address 0xCDE1 into register A
-    add a,b                ; ROM0:17E2 - Add the value of register B to register A
+    add a,b                ; ROM0:17E2 - Add the value of register B to register A (final tile index)
     cp   a,0x80            ; ROM0:17E3 - Compare register A with 0x80
     jr   nc,0x17EA         ; ROM0:17E5 - Jump if no carry (A >= 0x80) to address 0x17EA
-    ld   hl,0x9000         ; ROM0:17E7 - Load the address 0x9000 into HL register pair
+    ld   hl,0x9000         ; ROM0:17E7 - Load the address 0x9000 into HL register pair (tiles $80-$FF)
     ld   c,a               ; ROM0:17EA - Copy the value of A into register C
     ld   b,0x00            ; ROM0:17EB - Set register B to 0 (initialize counter)
-    sla  c                 ; ROM0:17ED - Perform a left shift on register C (multiply by 2)
-    rl   b                 ; ROM0:17EF - Rotate left through carry on register B
-    sla  c                 ; ROM0:17F1 - Perform another left shift on register C (multiply by 2)
-    rl   b                 ; ROM0:17F3 - Rotate left through carry on register B
-    sla  c                 ; ROM0:17F5 - Perform another left shift on register C (multiply by 2)
-    rl   b                 ; ROM0:17F7 - Rotate left through carry on register B
-    sla  c                 ; ROM0:17F9 - Perform another left shift on register C (multiply by 2)
-    rl   b                 ; ROM0:17FB - Rotate left through carry on register B
+    ; Multiply by 16 (four SLA) because we are addressing 2bpp tiles in VRAM
+    sla  c                 ; ROM0:17ED - ×2
+    rl   b                 ; ROM0:17EF
+    sla  c                 ; ROM0:17F1 - ×4
+    rl   b                 ; ROM0:17F3
+    sla  c                 ; ROM0:17F5 - ×8
+    rl   b                 ; ROM0:17F7
+    sla  c                 ; ROM0:17F9 - ×16
+    rl   b                 ; ROM0:17FB
     add  hl,bc             ; ROM0:17FD - Add the value of BC to HL (calculate address offset)
-    ld   b,0x08            ; ROM0:17FE - Set register B to 8 (loop counter)
-    ld   a,(de)            ; ROM0:1800 - Load the value at address DE into register A
-    rst  0x20              ; ROM0:1801 - Call the subroutine at address 0x0020 (software interrupt)
+    ld   b,0x08            ; ROM0:17FE - Set register B to 8 (loop counter = 8 rows)
+
+    ld   a,(de)            ; ROM0:1800 - Load the value at address DE into register A (1bpp row)
+    rst  0x20              ; ROM0:1801 - Call the subroutine at address 0x0020 (write plane 0)
     inc  hl                ; ROM0:1802 - Increment the HL register pair
-    ld   a,(de)            ; ROM0:1803 - Load the value at address DE into register A
-    rst  0x20              ; ROM0:1804 - Call the subroutine at address 0x0020 (software interrupt)
+    ld   a,(de)            ; ROM0:1803 - Load the same byte again
+    rst  0x20              ; ROM0:1804 - Call the subroutine at address 0x0020 (write plane 1 = identical → 1bpp look)
     inc  de                ; ROM0:1805 - Increment the DE register pair
     inc  hl                ; ROM0:1806 - Increment the HL register pair
     dec  b                 ; ROM0:1807 - Decrement the value in register B (loop counter)
@@ -546,6 +552,11 @@
     ld   a, 0xFF        ; ROM0:323F - Load 0xFF; Prepares fill value
     call 0x04CB         ; ROM0:3241 - Call fill routine; Fills small text area
     ret                 ; ROM0:3244 - Return; Exits small block handler
+
+
+; This swaps the first word in the game with <ぶんかい> for testing purposes
+;.org 0x13EBB
+;.db 0xFD, 0x2B, 0x3D, 0x15, 0x11, 0xF0 ; FD=゛ 2B=ふ 3D=ん 15=か 11=い F0=<END>
 
 .org 0x33900               ; Font Tiles, 8x8 1bpp Japanese Charset 
 ; AND each byte with 0xF0 to blank out the right half of the tile for an 8×4 test
