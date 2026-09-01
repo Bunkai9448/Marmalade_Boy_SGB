@@ -16,6 +16,22 @@ def bin_to_png(input_file, output_file, width_tiles=16):
     with open(input_file, 'rb') as f:
         data = f.read()
 
+    # Skip empty/incomplete BINs. These may be non-graphics data such as
+    # tilemaps or other decompressed resources.
+    if len(data) < 16:
+        print(f"Skipping {input_file}: only {len(data)} bytes (not a complete 2bpp tile)")
+        return
+
+    # Ignore a trailing partial tile rather than creating an invalid image.
+    complete_size = (len(data) // 16) * 16
+    if complete_size != len(data):
+        print(f"Warning: {input_file} has {len(data) % 16} trailing bytes; ignoring them")
+        data = data[:complete_size]
+
+    if not data:
+        print(f"Skipping {input_file}: no complete 2bpp tiles")
+        return
+
     # Each tile is 8x8 pixels, 2 bits per pixel, 16 bytes per tile (planar 2bpp)
     tile_size = 16
     tiles = [data[i:i + tile_size] for i in range(0, len(data), tile_size)]
