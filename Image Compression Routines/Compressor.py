@@ -1,3 +1,5 @@
+import json
+
 def compress(input_data):
     compressed = bytearray()
     i = 0
@@ -61,6 +63,20 @@ files_to_compress = [
     '0x36A1B.bin',
 ]
 
+# Original compressed sizes to check against, from Decompressor.py's
+# bin_sizes.json -- compressed_size there is the true space (including the
+# terminator byte) each block occupied at its offset in the ROM, so a
+# recompressed file bigger than that would overwrite whatever follows.
+SIZE_REPORT_PATH = 'bin_sizes.json'
+try:
+    with open(SIZE_REPORT_PATH, 'r') as f:
+        size_report = json.load(f)
+except FileNotFoundError:
+    print(f"Warning: {SIZE_REPORT_PATH} not found -- size checking will be "
+          f"skipped for all files. Run the updated Decompressor.py first to "
+          f"generate it.")
+    size_report = {}
+
 # Compress each file
 for file_name in files_to_compress:
     try:
@@ -72,8 +88,28 @@ for file_name in files_to_compress:
         output_file_name = f'c_{file_name}'
         with open(output_file_name, 'wb') as f:
             f.write(compressed_data)
-        
-        print(f'File {file_name} successfully compressed as {output_file_name}')
+
+        new_size = len(compressed_data)
+        print(f'File {file_name} successfully compressed as {output_file_name} ({new_size} bytes)')
+
+        # offset_key: "0x2401A.bin" -> "0x2401A", matching bin_sizes.json's keys
+        offset_key = file_name[:-4] if file_name.endswith('.bin') else file_name
+        original_info = size_report.get(offset_key)
+        if original_info is None:
+            print(f'  (no original size on record for {offset_key} in '
+                  f'{SIZE_REPORT_PATH} -- skipped size check)')
+        else:
+            original_size = original_info.get('compressed_size')
+            if new_size <= original_size:
+                spare = original_size - new_size
+                print(f'  FITS: {new_size} <= {original_size} bytes (original) '
+                      f'-- {spare} byte(s) to spare, safe to reinsert in place')
+            else:
+                over = new_size - original_size
+                print(f'  DOES NOT FIT: {new_size} > {original_size} bytes '
+                      f'(original) -- {over} byte(s) over, would overwrite '
+                      f'whatever follows at that offset in the ROM')
+
     except FileNotFoundError:
         print(f'Error: Could not find the file {file_name}')
     except Exception as e:
