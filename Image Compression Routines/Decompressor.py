@@ -1,3 +1,5 @@
+import json
+
 def read_rom(rom_path, offset):
     with open(rom_path, 'rb') as f:
         f.seek(offset)
@@ -59,6 +61,51 @@ def decompress(data):
         else:
             output.append(byte)
     return output
+
+# Finds the TRUE compressed length by replicating decompress()'s own
+# walk/termination logic (stop at a standalone 0xEE), rather than trusting
+# read_rom()'s byte count. read_rom() only stops on the specific two-byte
+# sequence "0x00 0xEE" -- if the byte before a real terminator isn't 0x00
+# (common), it over-reads far past the actual end of the compressed block.
+# decompress() itself isn't affected (it stops correctly regardless), but
+# using len(compressed_data) from read_rom for a size report would be --
+# this walks the same pattern matching decompress() uses and returns the
+# index where the real terminator was found instead.
+def find_compressed_length(rom_path, offset):
+    """
+    Walks the RAW ROM bytes directly from offset, replicating decompress()'s
+    own marker-skipping logic, and returns the true total span including
+    the terminating 0xEE byte itself.
+
+    Deliberately does NOT use read_rom()'s output for this: read_rom()'s
+    "stop on 00 EE" check finds the right stopping point, but discards the
+    final 0xEE byte from what it returns (decompress() still works fine on
+    that trimmed data, since it just runs out of input at the same logical
+    point) -- so measuring length from read_rom()'s output undercounts by
+    1 byte whenever the terminator happens to be preceded by 0x00, while
+    being correct when it isn't. Reading straight from the ROM avoids that
+    inconsistency and always includes the terminator, which is what
+    actually matters for checking whether recompressed data fits back into
+    the space the original occupied.
+    """
+    with open(rom_path, 'rb') as f:
+        f.seek(offset)
+        i = 0
+        while True:
+            byte = f.read(1)[0]
+            i += 1
+            if byte in (0xBB, 0xCC, 0x99):
+                f.read(1)
+                i += 1
+            elif byte == 0xDD:
+                f.read(2)
+                i += 2
+            elif byte == 0xAA:
+                f.read(3)
+                i += 3
+            elif byte == 0xEE:
+                return i
+            # else: literal byte, nothing extra to skip
 
 # Function to save the decompressed data in a .bin file
 def save_to_bin(data, output_path):
@@ -296,6 +343,7 @@ offsets = [
 ]
 
 # Process each offset
+size_report = {}
 for offset in offsets:
     try:
         # Read compressed ROM data
@@ -309,9 +357,27 @@ for offset in offsets:
         
         # Save the decompressed data in a .bin file
         save_to_bin(decompressed_data, output_bin_path)
-        
+
+        # Record sizes to check against later -- compressed_size is what
+        # actually matters when recompressing an edited bin: the new
+        # compressed data needs to fit in the space the original
+        # compressed bytes occupied at this offset, or it'll overwrite
+        # whatever comes next in the ROM.
+        size_report[f"0x{offset:X}"] = {
+            "bin_file": output_bin_path,
+            "compressed_size": find_compressed_length(rom_path, offset),
+            "decompressed_size": len(decompressed_data),
+        }
+
         print(f"Uncompressed data stored in: {output_bin_path}")
     except Exception as e:
         print(f"Error in offset 0x{offset:X}: {e}")
+
+# Write the size report for later reference (e.g. checking a recompressed
+# file's size against what originally fit at that offset).
+size_report_path = "bin_sizes.json"
+with open(size_report_path, 'w') as f:
+    json.dump(size_report, f, indent=2)
+print(f"Size report written to {size_report_path}")
         
 print('Decompression process completed.')
