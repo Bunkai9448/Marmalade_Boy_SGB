@@ -44,231 +44,230 @@ def compress(input_data):
 
 # List of files to compress
 files_to_compress = [
-    0x1803E,
-    0x1880E,
-    0x18F63,
-    0x196DA,
-    0x19DD9, # Rokutanda Face
-    0x1A4E3,
-    0x1ABF5,
-    0x1ABF6,
-    0x1ABFE,
-    0x1AC13,
-    0x1ACAA,
-    0x1AD85,
-    0x1AF47,
-    0x1AFC1,
-    0x1AFCE, # Psychology test titles (START)
-    0x1B3FB,
-    0x1B4B8, # Keyword 01
-    0x1B5BA, # Keyword 02
-    0x1B678, # Keyword 05
-    0x1B7C2, # Keyword 03
-    0x1B93F, # Keyword 04
-    0x1BA2D, # Keyword 06
-    0x1BB42, # Keyword 07
-    0x1BC07, # Keyword 08
-    0x1BCEA, # Keyword 09
-    0x1BDBB, # Keyword 10
-    0x1BE7D, # Katakana font section, similar to the ones used in the password system
-    0x1BEE2,
-    0x1C040,
-    0x1C18E,
-    0x1C1C1,
-    0x1C365,
-    0x1C4EF,
-    0x1C78E,
-    0x1C9FA,
-    0x1CC33,
-    0x1CCBE,
-    0x1CCD9,
-    0x1CD4B,
-    0x1CE15,
-    0x1CE88,
-    0x1D38A,
-    0x1D457,
-    0x1D668,
-    0x1D855, # Miki shocked screen
-    0x1DC09,
-    0x1DC48,
-    0x1DE30,
-    0x1E017,
-    0x1E212,
-    0x1E3EB,
-    0x1E5E1,
-    0x1E7CC,
-    0x1E9B8,
-    0x1EFD9, # 2nd Font (hiragana only) and Push a button text
-    0x1F467,
-    0x1F579,
-    0x1F66E, # two sentences, each one describes why she likes each boy
-    0x1F845, # Ginta and Yuu faces
-    0x1FDC5,
-    0x20000,
-    0x20036,
-    0x2070C,
-    0x20DA1, # Marmalade Boy text from Pro tip screen
-    0x214CF,
-    0x2156C,
-    0x21624, # Robot
-    0x21865,
-    0x218E5, # dates and blood type font
-    0x21AFE, # Tiles for 1st image in psychology results
-    0x21B00, # (END) psychology test results
-    0x22188, # 恋診断書の
-    0x22672, # 
-    0x229CD, # Psychology Graphic scale and each vortix legend
-    0x22D5A, # "keyword" Test
-    0x22F30,
-    0x23081,
-    0x23172,
-    0x232D0,
-    0x233F0,
-    0x23652, # Password text
-    0x23828,
-    0x238BA,
-    0x238DE,
-    0x2391E,
-    0x23942,
-    0x23973, # 
-    0x23F0E, # Main screen, needs aligment (I should have this one from the first tests)
-    0x2401A, # Main (Start) Screen
-    0x246C0,
-    0x2498C,
-    0x24A61,
-    0x24BA8, # School Logo and "Marmalade Boy Smash" text
-    0x25280, # 銀太のテニスマッチ遊の　メダイュの秘密恋の行方
-    0x256B4,
-    0x257BB, # Copyright screen
-    0x25D14,
-    0x25DE8, # Password Robot
-    0x2638D,
-    0x264CB,
-    0x264FC,
-    0x265A1, # Ginta Face
-    0x28018,
-    0x2862D,
-    0x28B8E, # Library background tiles
-    0x290E6,
-    0x2979B,
-    0x29E84,
-    0x2A2BD,
-    0x2AA31,
-    0x2AD1D,
-    0x2B3B5,
-    0x2B992,
-    0x2BE83,
-    0x2C046,
-    0x2C128,
-    0x2C1FF,
-    0x2C2EC,
-    0x2C3BF,
-    0x2C49E,
-    0x2C579,
-    0x2C615,
-    0x2C6C7,
-    0x2C799,
-    0x2C886,
-    0x2C950,
-    0x2CA12,
-    0x2CB05,
-    0x2CBBF,
-    0x2CC8C,
-    0x2CD7D,
-    0x2CE27,
-    0x2CEFF,
-    0x2CFB8,
-    0x2D578,
-    0x2D8FA,
-    0x2DF04, # "Hand Made" Sign from a background shop
-    0x2E441,
-    0x2E7EC,
-    0x2E9C6,
-    0x2EF8E,
-    0x2F1E8, # Miki Face
-    0x2F64B, # Maruten and Handakuten tiles, follows 2nd font stuff in vram
-    0x2F855, # Yuu Face
-    0x2FC33,
-    0x2FCDE,
-    0x2FD90,
-    0x2FE35,
-    0x2FF09,
-    0x30000,
-    0x30050,
-    0x300EB,
-    0x301E5,
-    0x302C6, # Candy Jar with candies in it for the minigame
-    0x3059C, # Numbers and faces for that jar minigame
-    0x307F1,
-    0x308CC,
-    0x30967, # 
-    0x30CFE,
-    0x31242,
-    0x31374,
-    0x317C1, # Piano Minigame, "Replay" and "Play" Buttons and its label
-    0x31A8F,
-    0x31AD9, # Coin Minigame background with "Marmalade Boy" text
-    0x31F11,
-    0x32022,
-    0x32160,
-    0x3232D, # Notebook's 1st page
-    0x32854, # Notebook's Item, How to use, Marmalade
-    0x32B1A,
-    0x32CB8,
-    0x32DD9,
-    0x32ECE,
-    0x32FF3,
-    0x33136,
-    0x3325F,
-    0x33262,
-    0x332F6,
-    0x3334B,
-    0x333C4,
-    0x3343D,
-    0x334A5,
-    0x33517,
-    0x3360F,
-    0x33707,
-    0x34000,
-    0x3404C,
-    0x340DD,
-    0x344BA,
-    0x34675,
-    0x347D9,
-    0x34945,
-    0x34979,
-    0x349BB,
-    0x349F8,
-    0x34A33,
-    0x34A68,
-    0x34AA9,
-    0x34B4E,
-    0x34BE6,
-    0x34C8A,
-    0x34CC1,
-    0x34D25,
-    0x34D67,
-    0x34DCA,
-    0x34E35,
-    0x34E94,
-    0x35065, # リビングキッチン
-    0x356E2, # 光希遊のへや玄関
-    0x35998,
-    0x35AA0,
-    0x35ABB,
-    0x35BBE, # 校　図書館　中庭 needs aligment
-    0x361AF, # テニスコート
-    0x362A3,
-    0x3639D, # 教室　建ＡＢＣＤ
-    0x36A1B, # E正面玄関
-    0x36B5C,
-    0x36EAF, # 映画館公園並木通
-    0x3761F, # 
-    0x37986,
-    0x37AD9,
-    0x37BD6,
+    '0x1803E.bin',
+    '0x1880E.bin',
+    '0x18F63.bin',
+    '0x196DA.bin',
+    '0x19DD9.bin',  # Rokutanda Face
+    '0x1A4E3.bin',
+    '0x1ABF5.bin',
+    '0x1ABF6.bin',
+    '0x1ABFE.bin',
+    '0x1AC13.bin',
+    '0x1ACAA.bin',
+    '0x1AD85.bin',
+    '0x1AF47.bin',
+    '0x1AFC1.bin',
+    '0x1AFCE.bin',  # Psychology test titles (START)
+    '0x1B3FB.bin',
+    '0x1B4B8.bin',  # Keyword 01
+    '0x1B5BA.bin',  # Keyword 02
+    '0x1B678.bin',  # Keyword 05
+    '0x1B7C2.bin',  # Keyword 03
+    '0x1B93F.bin',  # Keyword 04
+    '0x1BA2D.bin',  # Keyword 06
+    '0x1BB42.bin',  # Keyword 07
+    '0x1BC07.bin',  # Keyword 08
+    '0x1BCEA.bin',  # Keyword 09
+    '0x1BDBB.bin',  # Keyword 10
+    '0x1BE7D.bin',  # Katakana font section
+    '0x1BEE2.bin',
+    '0x1C040.bin',
+    '0x1C18E.bin',
+    '0x1C1C1.bin',
+    '0x1C365.bin',
+    '0x1C4EF.bin',
+    '0x1C78E.bin',
+    '0x1C9FA.bin',
+    '0x1CC33.bin',
+    '0x1CCBE.bin',
+    '0x1CCD9.bin',
+    '0x1CD4B.bin',
+    '0x1CE15.bin',
+    '0x1CE88.bin',
+    '0x1D38A.bin',
+    '0x1D457.bin',
+    '0x1D668.bin',
+    '0x1D855.bin',  # Miki shocked screen
+    '0x1DC09.bin',
+    '0x1DC48.bin',
+    '0x1DE30.bin',
+    '0x1E017.bin',
+    '0x1E212.bin',
+    '0x1E3EB.bin',
+    '0x1E5E1.bin',
+    '0x1E7CC.bin',
+    '0x1E9B8.bin',
+    '0x1EFD9.bin',  # 2nd Font (hiragana only) and Push a button text
+    '0x1F467.bin',
+    '0x1F579.bin',
+    '0x1F66E.bin',  # two sentences
+    '0x1F845.bin',  # Ginta and Yuu faces
+    '0x1FDC5.bin',
+    '0x20000.bin',
+    '0x20036.bin',
+    '0x2070C.bin',
+    '0x20DA1.bin',  # Marmalade Boy text from Pro tip screen
+    '0x214CF.bin',
+    '0x2156C.bin',
+    '0x21624.bin',  # Robot
+    '0x21865.bin',
+    '0x218E5.bin',  # dates and blood type font
+    '0x21AFE.bin',  # Tiles for 1st image in psychology results
+    '0x21B00.bin',  # (END) psychology test results
+    '0x22188.bin',
+    '0x22672.bin',
+    '0x229CD.bin',  # Psychology Graphic scale
+    '0x22D5A.bin',  # "keyword" Test
+    '0x22F30.bin',
+    '0x23081.bin',
+    '0x23172.bin',
+    '0x232D0.bin',
+    '0x233F0.bin',
+    '0x23652.bin',  # Password text
+    '0x23828.bin',
+    '0x238BA.bin',
+    '0x238DE.bin',
+    '0x2391E.bin',
+    '0x23942.bin',
+    '0x23973.bin',
+    '0x23F0E.bin',
+    '0x2401A.bin',  # Main (Start) Screen
+    '0x246C0.bin',
+    '0x2498C.bin',
+    '0x24A61.bin',  # title tilemap
+    '0x24BA8.bin',  # School Logo and "Marmalade Boy Smash" text
+    '0x25280.bin',
+    '0x256B4.bin',
+    '0x257BB.bin',  # Copyright screen
+    '0x25D14.bin',
+    '0x25DE8.bin',  # Password Robot
+    '0x2638D.bin',
+    '0x264CB.bin',
+    '0x264FC.bin',
+    '0x265A1.bin',  # Ginta Face
+    '0x28018.bin',
+    '0x2862D.bin',
+    '0x28B8E.bin',  # Library background tiles
+    '0x290E6.bin',
+    '0x2979B.bin',
+    '0x29E84.bin',
+    '0x2A2BD.bin',
+    '0x2AA31.bin',
+    '0x2AD1D.bin',
+    '0x2B3B5.bin',
+    '0x2B992.bin',
+    '0x2BE83.bin',
+    '0x2C046.bin',
+    '0x2C128.bin',
+    '0x2C1FF.bin',
+    '0x2C2EC.bin',
+    '0x2C3BF.bin',
+    '0x2C49E.bin',
+    '0x2C579.bin',
+    '0x2C615.bin',
+    '0x2C6C7.bin',
+    '0x2C799.bin',
+    '0x2C886.bin',
+    '0x2C950.bin',
+    '0x2CA12.bin',
+    '0x2CB05.bin',
+    '0x2CBBF.bin',
+    '0x2CC8C.bin',
+    '0x2CD7D.bin',
+    '0x2CE27.bin',
+    '0x2CEFF.bin',
+    '0x2CFB8.bin',
+    '0x2D578.bin',
+    '0x2D8FA.bin',
+    '0x2DF04.bin',
+    '0x2E441.bin',
+    '0x2E7EC.bin',
+    '0x2E9C6.bin',
+    '0x2EF8E.bin',
+    '0x2F1E8.bin',  # Miki Face
+    '0x2F64B.bin',
+    '0x2F855.bin',  # Yuu Face
+    '0x2FC33.bin',
+    '0x2FCDE.bin',
+    '0x2FD90.bin',
+    '0x2FE35.bin',
+    '0x2FF09.bin',
+    '0x30000.bin',
+    '0x30050.bin',
+    '0x300EB.bin',
+    '0x301E5.bin',
+    '0x302C6.bin',
+    '0x3059C.bin',
+    '0x307F1.bin',
+    '0x308CC.bin',
+    '0x30967.bin',
+    '0x30CFE.bin',
+    '0x31242.bin',
+    '0x31374.bin',
+    '0x317C1.bin',
+    '0x31A8F.bin',
+    '0x31AD9.bin',
+    '0x31F11.bin',
+    '0x32022.bin',
+    '0x32160.bin',
+    '0x3232D.bin',
+    '0x32854.bin',
+    '0x32B1A.bin',
+    '0x32CB8.bin',
+    '0x32DD9.bin',
+    '0x32ECE.bin',
+    '0x32FF3.bin',
+    '0x33136.bin',
+    '0x3325F.bin',
+    '0x33262.bin',
+    '0x332F6.bin',
+    '0x3334B.bin',
+    '0x333C4.bin',
+    '0x3343D.bin',
+    '0x334A5.bin',
+    '0x33517.bin',
+    '0x3360F.bin',
+    '0x33707.bin',
+    '0x34000.bin',
+    '0x3404C.bin',
+    '0x340DD.bin',
+    '0x344BA.bin',
+    '0x34675.bin',
+    '0x347D9.bin',
+    '0x34945.bin',
+    '0x34979.bin',
+    '0x349BB.bin',
+    '0x349F8.bin',
+    '0x34A33.bin',
+    '0x34A68.bin',
+    '0x34AA9.bin',
+    '0x34B4E.bin',
+    '0x34BE6.bin',
+    '0x34C8A.bin',
+    '0x34CC1.bin',
+    '0x34D25.bin',
+    '0x34D67.bin',
+    '0x34DCA.bin',
+    '0x34E35.bin',
+    '0x34E94.bin',
+    '0x35065.bin',
+    '0x356E2.bin',
+    '0x35998.bin',
+    '0x35AA0.bin',
+    '0x35ABB.bin',
+    '0x35BBE.bin',
+    '0x361AF.bin',
+    '0x362A3.bin',
+    '0x3639D.bin',
+    '0x36A1B.bin',
+    '0x36B5C.bin',
+    '0x36EAF.bin',
+    '0x3761F.bin',
+    '0x37986.bin',
+    '0x37AD9.bin',
+    '0x37BD6.bin',
 ]
-
 # Original compressed sizes to check against, from Decompressor.py's
 # bin_sizes.json -- compressed_size there is the true space (including the
 # terminator byte) each block occupied at its offset in the ROM, so a
