@@ -52,7 +52,7 @@ def insert_hex_data_into_rom(rom_path, new_rom_path, hex_files):
 
 # List of hexadecimal files
 hex_files = [
-    'c_0x1C9FA.bin', 'c_0x1E7CC.bin', 'c_0x2401A.bin', 'c_0x246C0.bin',
+    'c_0x1C9FA.bin', 'c_0x1E7CC.bin', 'c_0x2401A.bin', 'c_0x246C0.bin', 'c_0x24A61.bin',
     'c_0x25280.bin', 'c_0x256B4.bin', 'c_0x257BB.bin', 'c_0x25DE8.bin',
     'c_0x2979B.bin', 'c_0x2EF8E.bin', 'c_0x307F1.bin', 'c_0x31A8F.bin',
     'c_0x31F11.bin', 'c_0x32854.bin', 'c_0x332F6.bin', 'c_0x356E2.bin',
