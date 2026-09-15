@@ -10,7 +10,7 @@ You must provide your own game files. Do not ask here for them.
 ## Current State of the Project
 
 - Script Pointers > [Worked out](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Text_Extraction_Insertion), *working on repointing them in the expanded section of the rom to have more space*
-- Text Dictionary Compression > [Worked out (Check FontTable)](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/Text_Extraction_Insertion/CharConverter/FontTable.tbl) 
+- Text Dictionary Compression > [Worked out (Check FontTable)](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/Text_Extraction_Insertion/CharConverter/FontTable_JPN.tbl) 
 - Script Dump > [Worked out](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Text_Extraction_Insertion)
 - Script Translation > Done
 - Script Insert > [Worked out](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Text_Extraction_Insertion)
