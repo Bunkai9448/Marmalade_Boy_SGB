@@ -16,15 +16,15 @@ ROM="rom.gb"
 
 FONT="Text_Extraction_Insertion/Font.bin"         # The new Font Tiles
 EXP_ROUTINE=""  # The ROM expansion and header fixes (this is replicated in all ASM and has no single asm for it. Leaving here for completeness)
-DISP_ROUTINE="Text Display Routine\Working_Text_Hook_paired.asm"        # The new Font Size Display
-EXPAND_POINTERS="Text Display Routine\ExpandedROMnewScript.asm"     # The Pointers are now located in expanded ROM addresses
+DISP_ROUTINE="ASM/Working_Text_Hook_paired.asm"        # The new Font Size Display
+EXPAND_POINTERS="ASM/ExpandedROMnewScript.asm"     # The Pointers are now located in expanded ROM addresses
 
 IS_WINDOWS = True
 
 if IS_WINDOWS:
-    ARMIPS = "Text Display Routine/armips_at_gameboy.exe"
+    ARMIPS = "ASM/armips_at_gameboy.exe"
 else:
-    ARMIPS = "./Text Display Routine/armips_at_gameboy"
+    ARMIPS = "./ASM/armips_at_gameboy"
 
 def _create_backup():
 
