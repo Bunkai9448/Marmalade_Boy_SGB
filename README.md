@@ -9,14 +9,14 @@ You must provide your own game files. Do not ask here for them.
 
 ## Current State of the Project
 
-- Script Pointers > [Worked out](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Text%20Extraction-Insertion), *working on repointing them in the expanded section of the rom to have more space*
-- Text Dictionary Compression > [Worked out (Check FontTable)](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/Text%20Extraction-Insertion/FontTable.tbl) 
-- Script Dump > [Worked out](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Text%20Extraction-Insertion)
+- Script Pointers > [Worked out](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Text_Extraction_Insertion), *working on repointing them in the expanded section of the rom to have more space*
+- Text Dictionary Compression > [Worked out (Check FontTable)](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/Text_Extraction_Insertion/FontTable.tbl) 
+- Script Dump > [Worked out](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Text_Extraction_Insertion)
 - Script Translation > Done
-- Script Insert > [Worked out](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Text%20Extraction-Insertion)
-- Image compression and tools for it > [Worked out](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Image%20Compression%20Routines), *working on improving automatization with tilemaps*
-- ROM expansion, to have more space for code and other stuff > [There is a sample in the text Display Routine Folder](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/Text%20Display%20Routine/ExpandedROM_BankTest.asm)
-- VWF, actually monofont with halved size [here](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/Text%20Display%20Routine/Working_Text_Hook_paired.asm)
+- Script Insert > [Worked out](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Text_Extraction_Insertion)
+- Image compression and tools for it > [Worked out](https://github.com/Bunkai9448/Marmalade_Boy_SGB/tree/main/Image_Compression_Routines), *working on improving automatization with tilemaps*
+- ROM expansion, to have more space for code and other stuff > [There is a sample in the text Display Routine Folder](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/ASM/ExpandedROM_BankTest.asm)
+- VWF, actually monofont with halved size [here](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/ASM/Working_Text_Hook_paired.asm)
 - Script to execute everything at once, [main.py](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/main.py)
 
 *Notice: Even if many of the steps have "worked out" labels, they still need polish and bug fixing.*  
