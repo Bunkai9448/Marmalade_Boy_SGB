@@ -1,6 +1,6 @@
 # Character Converter
 
-![Screenshot of use](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/Text%20Extraction-Insertion/CharConverter/Converter_screenshot.png)
+![Screenshot of use](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/Text_Extraction_Insertion/CharConverter/Converter_screenshot.png)
 
 ## Requirements
 
