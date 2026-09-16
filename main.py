@@ -24,7 +24,7 @@ IS_WINDOWS = True
 if IS_WINDOWS:
     ARMIPS = "ASM/armips_at_gameboy.exe"
 else:
-    ARMIPS = "./ASM/armips_at_gameboy"
+    ARMIPS = "./ASM/armips_at_gameboy-unix"
 
 def _create_backup():
 
