@@ -9,7 +9,7 @@
 - The idea of making this public, in this state, is to let more people participate to ease the process.
 - Feel free to push improvements to the code comments.
   
-- The original routine: [commentedOriginal.asm](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/ASM/commentedOriginal.asm) is rewrited so it displays a half width font in a separate asm.
+- The original routine: [commentedOriginal.asm](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/ASM/commentedOriginal.asm) is rewritten so it displays a half width font in a separate asm.
 - The test code uses [commented original.asm](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/ASM/ExpandedROM_BankTest.asm), and is written for [Armips fork with z80 for gameboy](https://github.com/Prof9/armips/tree/gameboy/Tests/Z80) which you have built executables here: [armips_at_gameboy.exe](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/ASM/armips_at_gameboy.exe), [armips_at_gameboy-unix](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/ASM/armips_at_gameboy-unix)
 
 **WARNING!**
