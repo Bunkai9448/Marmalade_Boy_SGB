@@ -12,12 +12,13 @@ from Text_Extraction_Insertion.Font_GFX import insert_bytes
 # This little snippets is done to make that almost transparent for the user. Just need to set the variables accordingly.
 # A blank name "" will make the script jump over that command, this is done so you can re-run things separately for tests
 
-ROM="rom.gb"
+ROM="output.gb"
 
-FONT="Text_Extraction_Insertion/Font.bin"         # The new Font Tiles
+FONT="Text_Extraction_Insertion/Font.bin"                     # The new Font Tiles
 EXP_ROUTINE=""  # The ROM expansion and header fixes (this is replicated in all ASM and has no single asm for it. Leaving here for completeness)
-DISP_ROUTINE="ASM/Working_Text_Hook_paired.asm"        # The new Font Size Display
-EXPAND_POINTERS="ASM/ExpandedROMnewScript.asm"     # The Pointers are now located in expanded ROM addresses
+DISP_ROUTINE="ASM/Working_Text_Hook_paired.asm"               # The new Font Size Display
+EXPAND_POINTERS="ASM/ExpandedROMnewScript.asm"                # The Pointers are now located in expanded ROM addresses
+INSERT_SCRIPT="Text_Extraction_Insertion/007_insertScript.py" # Insert the Translated Script
 
 IS_WINDOWS = True
 
@@ -46,7 +47,7 @@ def _run_command(command):
 
 if __name__ == "__main__":
 
-# When Python is run as external command (instead of them as libs) so I can keep testing things separately without forgetting what was the name of each def.
+# When Python is run as external command (instead of them as libs) is done so I can keep testing things separately without forgetting what was the name of each def.
 # You can change it to go one by one, to do it more cleanly.
 
     _create_backup()
@@ -63,5 +64,7 @@ if __name__ == "__main__":
     if EXPAND_POINTERS:
         _run_command([ARMIPS, EXPAND_POINTERS])
 
+    if INSERT_SCRIPT:
+        _run_command([sys.executable, INSERT_SCRIPT])
 
-    print("All ASM patches have been applied successfuly")
+    print("All patches have been applied successfuly")
