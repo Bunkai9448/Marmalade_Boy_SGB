@@ -39,7 +39,7 @@ db 0xF4, 0x2D
 
 ; copy at expanded section
 .org 0x44000 ; at CPU 0x4000 / Bank $11
-.incbin "Marmalade Boy (Japan).gb", 0x0C000, 0x4000
+.incbin "backup_rom.gb", 0x0C000, 0x4000
 
 .org 0x44000 ; it overwrites partially the above insertion, but only the
     db   0x00, 0x50    ; New First Pointer -> 0x5000
