@@ -4,7 +4,7 @@ This is just a proof of concept, deliberatedly lacking, so it can be preserved i
 
 I have the full script dumped and translated, but I will keep that private with other files and info to avoid leaks.
 
-After all atlas/cartographer tests, and getting the game's script, I went and re-created the same flow in Python, to make everything Operating System Agnostic. You can use [007_insertScript](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/Text_Extraction_Insertion/007_insertScript.py) to test the insertion with the same info that is used in the sample. The extraction and dict scripts remain private for now.
+After all atlas/cartographer tests, and getting the game's script, I went and re-created the same flow in Python, to make everything Operating System Agnostic. You can use [007_insertScript](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/Text_Extraction_Insertion/007_insertScript.py) to test the insertion with the same info that is used in the sample. The extraction and dict scripts remain private for now. (Do note that the automatized insertion uses the expanded ROM space, you need to run the ASM code or change the pointer to its original written in this readme).
 
 ## Data Info
 
