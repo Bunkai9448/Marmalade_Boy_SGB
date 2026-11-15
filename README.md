@@ -41,3 +41,9 @@ to share and use, is to give credit when it is due.
 - https://romhackplaza.org/author-name/bunkai/
 
 - https://romhack.ing/database/author/entry/stNt5JQBNs8FWu0CFDpF/
+
+## License due to all the current state of things
+- Main project has MIT [LICENSE.md](https://github.com/Bunkai9448/Marmalade_Boy_SGB/blob/main/LICENSE.md)
+- Please put the credits and references if you use any of it. 
+- Some files have different licenses and are used accordingly, check those for such cases.
+
